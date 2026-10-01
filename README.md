@@ -17,16 +17,6 @@ Silhouette rules can't recognise a dog or a horse, which is exactly where human 
 
 Run the tests with `npm test` (needs Node 18 or newer). They draw synthetic shapes and check that each is classified as intended.
 
-## Greek or Turkish timing
-
-The sources disagree about time. In the Greek reading used here, the bottom is the past, the walls the present and the rim the future. The Turkish reading treats the rim as the next week or two, the walls as the coming months and the bottom as the distant future. The page lets you switch.
-
-## Optional: Claude tells the story
-
-Under the reading, "Have Yiayia tell it as a story" sends the photos and the detected symbols to Claude, which writes a warmer, story-like reading in the voice of a yiayia. It uses the visitor's own Anthropic API key, sent directly from their browser to Anthropic. Because GitHub Pages is a public static site, never put your own key in the code.
-
-The model name is set at the top of `js/app.js` (`MODEL`). Change it there if Anthropic retires it.
-
 ## Files
 
 ```
