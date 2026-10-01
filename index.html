@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Yiayia reads my coffee cup</title>
+  <meta name="description" content="Upload a photo of your Greek coffee cup and Yiayia will read the grounds the traditional way.">
+  <meta name="theme-color" content="#0d5eaf">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Yiayia">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="band" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <svg class="emblem" viewBox="0 0 120 84" aria-hidden="true">
+      <path d="M44 14c-4-5 4-8 0-13M60 14c-4-5 4-8 0-13M76 14c-4-5 4-8 0-13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M30 22h60l-6 34a10 10 0 0 1-10 8H46a10 10 0 0 1-10-8z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <path d="M33 30h54" stroke="currentColor" stroke-width="2"/>
+      <path d="M89 30c12 0 12 18-2 18" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <ellipse cx="60" cy="70" rx="44" ry="7" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    </svg>
+    <h1>Yiayia reads my coffee cup</h1>
+    <p class="greek" lang="el">Η γιαγιά διαβάζει το φλιτζάνι μου</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <a href="#read" role="tab" id="tab-read" aria-controls="read">Read my cup</a>
+    <a href="#tradition" role="tab" id="tab-tradition" aria-controls="tradition">Our tradition</a>
+    <a href="#symbols" role="tab" id="tab-symbols" aria-controls="symbols">The symbols</a>
+  </nav>
+
+  <main>
+    <!-- ================= READ MY CUP ================= -->
+    <section id="read" class="panel" role="tabpanel" aria-labelledby="tab-read">
+      <p class="lede">Drink your coffee, make a wish, and turn the cup over onto its saucer. When it has cooled, take a photo looking straight down into the cup and show it to Yiayia.</p>
+
+      <div class="stage" id="stage">
+        <label class="empty" id="empty" for="file">
+          <svg viewBox="0 0 200 200" aria-hidden="true" class="empty-cup">
+            <circle cx="100" cy="100" r="88" class="ec-cup"/>
+            <circle cx="100" cy="100" r="80" class="ec-band"/>
+            <circle cx="100" cy="100" r="75" class="ec-cup"/>
+            <path class="ec-grounds" d="M70 120c10-20 30-8 36-28s26-14 30 4-20 30-36 24-34 18-30 0z"/>
+            <circle cx="128" cy="70" r="4" class="ec-grounds"/><circle cx="138" cy="80" r="3" class="ec-grounds"/>
+            <rect x="186" y="88" width="13" height="24" rx="6" class="ec-band"/>
+          </svg>
+          <span class="btn">Choose a photo</span>
+          <span class="empty-hint">Or take one now. Hold the phone level above the cup, in good daylight, without flash.</span>
+        </label>
+        <canvas id="canvas" hidden></canvas>
+        <div class="busy" id="busy" role="status" hidden>Yiayia is looking…</div>
+      </div>
+      <input type="file" id="file" accept="image/*" multiple class="visually-hidden">
+
+      <div class="tools" id="tools" hidden>
+        <div class="thumbs" id="thumbs" aria-label="Your photos"></div>
+        <div class="tool-row">
+          <label class="btn btn-plain" for="file">Add another photo</label>
+          <button type="button" class="btn btn-plain" id="adjust" aria-pressed="false">Adjust the circle</button>
+        </div>
+        <p class="help" id="stageHelp" hidden>Move the blue circle so it sits on the inside edge of the cup: drag the middle to move it, drag the edge to resize it, and drag the gold dot to where the handle is. Tap <em>Done</em> when it fits.</p>
+
+        <fieldset class="field">
+          <legend>This photo shows</legend>
+          <div class="seg">
+            <input type="radio" name="kind" id="kindCup" value="cup" checked><label for="kindCup">The cup</label>
+            <input type="radio" name="kind" id="kindSaucer" value="saucer"><label for="kindSaucer">The saucer</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="handle">Where is the handle?</label>
+          <input type="range" id="handle" min="0" max="359" step="1" value="90">
+          <p class="note">Slide until the gold dot sits at the handle. The handle side of the cup is you.</p>
+        </div>
+
+        <details class="more">
+          <summary>More settings</summary>
+          <fieldset class="field">
+            <legend>Read the timing</legend>
+            <div class="seg">
+              <input type="radio" name="trad" id="tradGreek" value="greek" checked><label for="tradGreek">Greek way</label>
+              <input type="radio" name="trad" id="tradTurkish" value="turkish"><label for="tradTurkish">Turkish way</label>
+            </div>
+            <p class="note" id="tradNote"></p>
+          </fieldset>
+          <div class="field">
+            <label for="sens">How much of the grounds to read</label>
+            <input type="range" id="sens" min="-1" max="1" step="0.1" value="0">
+            <div class="range-ends"><span>Only the darkest</span><span>Faint stains too</span></div>
+          </div>
+          <label class="check"><input type="checkbox" id="showMask"> Show what the computer sees</label>
+          <button type="button" class="btn btn-plain" id="resetCup">Find the cup again</button>
+        </details>
+      </div>
+
+      <article class="reading" id="reading" aria-live="polite" hidden>
+        <h2>Yiayia says…</h2>
+        <p class="overview" id="overview"></p>
+        <ol class="symbols" id="symbolsList"></ol>
+        <p class="saucer" id="saucer" hidden></p>
+        <p class="closing" id="closing"></p>
+
+        <details class="ai" id="ai">
+          <summary>Have Yiayia tell it as a story</summary>
+          <p>Claude looks at your photo and the symbols above and writes your reading as a story, in Yiayia's voice. This uses your own Anthropic API key, sent straight from your phone or computer to Anthropic. Your photos go nowhere unless you press the button.</p>
+          <label for="apiKey">Anthropic API key</label>
+          <input type="password" id="apiKey" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sk-ant-…">
+          <label class="check"><input type="checkbox" id="rememberKey"> Remember the key on this device</label>
+          <button type="button" class="btn" id="aiGo">Tell my story</button>
+          <div class="ai-out" id="aiOut"></div>
+        </details>
+      </article>
+
+      <section class="prepare" aria-labelledby="prepTitle">
+        <h2 id="prepTitle">Preparing your cup</h2>
+        <ol>
+          <li>Make a proper Greek coffee in a briki and drink it slowly, leaving the thick grounds at the bottom.</li>
+          <li>Hold the cup by the handle, make a wish, and swirl it three times so the grounds coat the walls.</li>
+          <li>Cover it with the saucer and turn it over in one steady motion. Leave it five to ten minutes to cool and dry.</li>
+          <li>Lift the cup and photograph straight down into it. Photograph the saucer too, if you like.</li>
+        </ol>
+      </section>
+    </section>
+
+    <!-- ================= OUR TRADITION ================= -->
+    <section id="tradition" class="panel" role="tabpanel" aria-labelledby="tab-tradition" hidden>
+      <article class="essay">
+        <h2>How it started: Thea Maria</h2>
+        <figure class="portrait" id="portrait">
+          <img src="images/thea-maria.jpg" alt="Thea Maria" id="portraitImg">
+          <figcaption lang="el">Θεία Μαρία</figcaption>
+        </figure>
+        <p>This little website began with my Thea Maria, my aunt, the reader of our family's cups.</p>
+        <p>When the coffee was finished, the cups were turned over onto their saucers and left to cool, and then, one by one, they found their way to her. She would lift each cup, turn it slowly in her hands, and peer inside as if reading a letter. Then she would tell us our fortunes.</p>
+        <p>A bird meant news was coming. A ring meant somebody was in love. A road meant a journey, and a dark patch was a worry about to lift. The way she told it had all of us giggling, teasing each other about whatever she had found, and waiting for our turn.</p>
+        <p>But under the laughter there was something more. Her readings left us feeling inspired, a little braver about the things we were hoping for, and a lot of real advice was passed across that table in those moments. Some of it we still repeat to each other today.</p>
+        <p>Yiayia here is a small way of keeping that tradition at the table, so anyone can turn their cup over, laugh a little, and leave with something good to think about.</p>
+
+        <div class="rule" aria-hidden="true"></div>
+
+        <h2>What reading the cup means</h2>
+        <p>In Greek it is called <i lang="el">καφεμαντεία</i>, kafemanteía, from <i>kafés</i>, coffee, and <i>manteía</i>, divination. The wider world knows it as tasseography. It is only possible because of the way Greek coffee is made: finely ground coffee boiled slowly in a small pot called a <i>bríki</i>, poured unfiltered with its foam, the <i>kaïmáki</i>, into a small cup and served with a glass of cold water. Whether you take it <i>skétos</i> (no sugar), <i>métrios</i> (medium) or <i>glykós</i> (sweet), the thick grounds left at the bottom are what the reader needs.</p>
+        <p>Cup reading arrived with coffee itself, travelling through the Ottoman world from the sixteenth century onward, and it is shared today across Greece, Cyprus, Turkey, the Balkans, Armenia and the Middle East. Each place has its own habits and its own favourite symbols, but the heart of it is the same.</p>
+        <p>In Greek homes it has mostly lived in the kitchen and the living room rather than the café. A visit, a coffee, and then the cups are turned over while the conversation carries on. The readers were usually the women of the family and the neighbourhood: a yiayia, a thea, a neighbour with a gift for it. Many families hold that you should never read your own cup; someone else has to do it for you.</p>
+        <p>Very few people take it as true prophecy, and the Orthodox Church has never approved of fortune-telling. That has never stopped it. A reading is really a gentle conversation: a way to talk about love, work, travel, worries and hopes, with the symbols opening the door. A good reader sees the person as much as the grounds, and the best readings end with laughter and a bit of wisdom you didn't know you needed.</p>
+
+        <div class="rule" aria-hidden="true"></div>
+
+        <h2>How the cup is read</h2>
+        <div class="map-wrap">
+          <svg viewBox="0 0 260 260" role="img" aria-labelledby="mapTitle" class="map-svg">
+            <title id="mapTitle">The cup seen from above: rim, walls and bottom rings, with the handle on the right meaning yourself</title>
+            <circle cx="130" cy="130" r="118" class="m-rim"/>
+            <circle cx="130" cy="130" r="79" class="m-ring"/>
+            <circle cx="130" cy="130" r="40" class="m-ring"/>
+            <rect x="246" y="116" width="12" height="28" rx="6" class="m-handle"/>
+            <text x="130" y="32" class="m-label" id="mapRim">Future</text>
+            <text x="130" y="72" class="m-label" id="mapMid">Present</text>
+            <text x="130" y="135" class="m-label" id="mapBot">Past</text>
+            <text x="216" y="182" class="m-label m-small">You</text>
+            <text x="44" y="182" class="m-label m-small">The world</text>
+          </svg>
+          <div>
+            <p>Where a shape sits matters as much as the shape itself. In the Greek way, the bottom of the cup holds the past, the walls the present, and the rim the future.</p>
+            <p>The handle stands for you, your heart and your home. Shapes on the far side speak of work, money, travel and other people. Big, clear shapes are strong signs; small, faint ones are gentle hints. A light cup is a light heart; a dark, heavy cup means there is a lot on your mind.</p>
+            <p>Finally, the saucer is read for the home. A clean saucer means a peaceful house.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ================= THE SYMBOLS ================= -->
+    <section id="symbols" class="panel" role="tabpanel" aria-labelledby="tab-symbols" hidden>
+      <h2>The symbols Yiayia looks for</h2>
+      <label for="dictSearch" class="visually-hidden">Search symbols</label>
+      <input type="search" id="dictSearch" placeholder="Search: bird, love, money…" autocapitalize="off">
+      <div id="dict" class="dict"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="band band-small" aria-hidden="true"></div>
+    <p>Made with love, in memory of the cups Thea Maria read. For fun and for the ritual, not for prediction. Everything runs on your own device; your photos stay with you.</p>
+    <p>Symbol meanings are summarised from
+      <a href="https://cappadociaworkshops.com/turkish-coffee-cup-reading-symbols">Cappadocia Workshops</a>,
+      <a href="https://www.ekaterinabotziou.com/how-to-read-a-greek-coffee-cup/">Ekaterina Botziou</a>,
+      <a href="https://www.instructables.com/Turkish-Coffee-Fortune-Telling/">Instructables</a> and
+      <a href="https://www.getgreece.com/coffee/greek-coffee-readings">GetGreece</a>.</p>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "kafemanteia",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Read a Greek coffee cup with in-browser computer vision.",
+  "scripts": {
+    "test": "node test/vision.test.mjs && node test/scene.test.mjs",
+    "start": "python3 -m http.server 8000"
+  }
+}
