@@ -1,0 +1,1620 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Yiayia reads my coffee cup</title>
+  <meta name="description" content="Upload a photo of your Greek coffee cup and Yiayia will read the grounds the traditional way.">
+  <meta name="theme-color" content="#0d5eaf">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Yiayia">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+/* Yiayia reads my coffee cup — traditional Greek blue and white, kept plain on purpose. */
+:root {
+  --white: #fdfdfb;
+  --blue: #0d5eaf;      /* Greek flag blue */
+  --deep: #0a3c73;      /* headings */
+  --ink: #23262d;       /* body text */
+  --muted: #5b6270;
+  --pale: #e7eef7;      /* light blue fills */
+  --line: #b9cbe2;
+  --coffee: #4a2e1e;
+  --gold: #b8872f;
+  --display: "GFS Didot", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Noto Serif", Georgia, "Times New Roman", serif;
+  color-scheme: light;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+*, *::before, *::after { box-sizing: inherit; }
+[hidden] { display: none !important; }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 4rem); }
+body {
+  margin: 0; background: var(--white); color: var(--ink);
+  font: 400 1.0625rem/1.7 var(--body);
+  padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  -webkit-tap-highlight-color: rgba(13, 94, 175, 0.15);
+}
+h1, h2 { font-family: var(--display); font-weight: 400; color: var(--deep); line-height: 1.15; }
+h2 { font-size: 1.75rem; margin: 0 0 1rem; text-align: center; }
+a { color: var(--blue); }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Greek key border */
+.band {
+  height: 22px; background: var(--blue);
+  --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='22'%3E%3Cpath d='M0 19.5H36.5V2.5H7.5V14.5H27.5V7.5H15.5V11' fill='none' stroke='black' stroke-width='3'/%3E%3C/svg%3E");
+  -webkit-mask: var(--m) repeat-x center / 40px 22px;
+  mask: var(--m) repeat-x center / 40px 22px;
+  margin-top: 0.75rem;
+}
+.band-small { height: 16px; -webkit-mask-size: 30px 16px; mask-size: 30px 16px; margin: 0 0 1.5rem; }
+
+/* masthead */
+.masthead { text-align: center; padding: 1.5rem 1.25rem 0.5rem; max-width: 46rem; margin: 0 auto; }
+.emblem { width: min(15rem, 62vw); height: auto; display: block; margin: 0 auto; }
+.masthead h1 { font-size: clamp(2.1rem, 7.5vw, 3.4rem); margin: 0.5rem 0 0.25rem; text-wrap: balance; }
+.greek { margin: 0; font-style: italic; color: var(--muted); font-size: 1.1rem; }
+
+/* page tabs, pinned to the top of the screen */
+.topnav {
+  position: sticky; top: 0; z-index: 20; background: var(--blue);
+  padding-top: env(safe-area-inset-top, 0px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+.tabs { display: flex; max-width: 46rem; margin: 0 auto; padding: 0.4rem 0.5rem 0; gap: 0.3rem; }
+.tabs a {
+  flex: 1 1 0; display: flex; align-items: center; justify-content: center; text-align: center;
+  min-height: 46px; padding: 0.5rem 0.4rem; line-height: 1.2;
+  color: #fff; text-decoration: none; font-size: 1rem;
+  border-radius: 5px 5px 0 0;
+}
+.tabs a:hover { background: rgba(255, 255, 255, 0.12); }
+.tabs a[aria-selected="true"] { background: var(--white); color: var(--blue); font-weight: 600; }
+.tabs a:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+@media (max-width: 26rem) { .tabs a { font-size: 0.92rem; } }
+
+main { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem 0; }
+.lede { text-align: center; margin: 0 auto 1.75rem; max-width: 36rem; }
+
+/* the photo, mounted like an old print */
+.stage {
+  position: relative; background: #fff; padding: 10px;
+  border: 1px solid var(--line); outline: 3px double var(--blue); outline-offset: 4px;
+  margin: 6px;
+}
+.stage canvas { width: 100%; height: auto; display: block; touch-action: pan-y pinch-zoom; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.stage canvas.editing { touch-action: none; cursor: grab; }
+.stage canvas.grabbing { cursor: grabbing; }
+.empty { min-height: 20rem; display: grid; justify-items: center; align-content: center; gap: 0.75rem; padding: 2rem 1rem; text-align: center; cursor: pointer; }
+.empty-cup { width: min(12rem, 55vw); }
+.ec-cup { fill: #fff; stroke: var(--line); }
+.ec-band { fill: var(--blue); }
+.ec-grounds { fill: var(--coffee); opacity: 0.85; }
+.empty-hint { color: var(--muted); font-size: 0.95rem; max-width: 22rem; }
+.busy {
+  position: absolute; left: 50%; bottom: 1.25rem; transform: translateX(-50%);
+  background: var(--white); color: var(--deep); border: 1px solid var(--blue);
+  padding: 0.35rem 1rem; font-style: italic; white-space: nowrap; max-width: 90%; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* buttons and controls */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+  font: 600 1rem/1.2 var(--body); padding: 0.6rem 1.2rem;
+  border: 2px solid var(--blue); border-radius: 4px; background: var(--blue); color: #fff; cursor: pointer;
+  text-decoration: none; -webkit-appearance: none; appearance: none;
+}
+.btn-plain { background: var(--white); color: var(--blue); }
+.btn[aria-pressed="true"] { background: var(--blue); color: #fff; }
+.btn:disabled { opacity: 0.6; }
+
+.tools { margin-top: 1.5rem; display: grid; gap: 1.25rem; }
+.tool-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.tool-row .btn { flex: 1 1 12rem; }
+.help { margin: 0; padding: 0.75rem 1rem; background: var(--pale); border-left: 3px solid var(--blue); font-size: 0.97rem; }
+
+.thumbs { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.thumbs:empty { display: none; }
+.thumb-wrap { position: relative; }
+.thumb { width: 4.5rem; height: 4.5rem; padding: 0; border: 1px solid var(--line); background: #fff; cursor: pointer; display: block; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb[aria-current="true"] { outline: 3px solid var(--blue); outline-offset: 1px; }
+.thumb .tkind { position: absolute; left: 3px; bottom: 3px; font-size: 0.72rem; padding: 0 0.3rem; background: var(--white); color: var(--deep); }
+.tdel {
+  position: absolute; right: -10px; top: -10px; width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--blue); background: var(--white); color: var(--blue); font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0;
+}
+
+.field { border: 0; padding: 0; margin: 0; display: grid; gap: 0.4rem; }
+.field legend, .field > label { font-weight: 600; color: var(--deep); padding: 0; margin-bottom: 0.4rem; }
+.note { margin: 0; color: var(--muted); font-size: 0.93rem; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--blue); border-radius: 4px; overflow: hidden; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { text-align: center; padding: 0.55rem; min-height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--blue); background: var(--white); }
+.seg label + input + label { border-left: 2px solid var(--blue); }
+.seg input:checked + label { background: var(--blue); color: #fff; }
+.seg input:focus-visible + label { outline: 2px solid var(--deep); outline-offset: -4px; }
+input[type="range"] { width: 100%; accent-color: var(--blue); min-height: 32px; }
+.range-ends { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); }
+.check { display: flex; align-items: center; gap: 0.6rem; min-height: 44px; cursor: pointer; }
+.check input { accent-color: var(--blue); width: 1.2rem; height: 1.2rem; }
+.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.25rem 0; }
+.more[open] { padding-bottom: 1rem; }
+.more summary { cursor: pointer; color: var(--blue); min-height: 44px; display: flex; align-items: center; }
+.more > * + * { margin-top: 1rem; }
+
+/* the reading */
+.reading { margin-top: 3rem; padding-top: 1.5rem; border-top: 3px double var(--blue); }
+.reading h2 { font-size: 2.1rem; }
+.overview { font-size: 1.15rem; font-style: italic; text-align: center; margin: 0 auto 2rem; max-width: 36rem; }
+.symbols { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.75rem; }
+.symbol { display: grid; grid-template-columns: 2.75rem 1fr; gap: 0 0.9rem; }
+.badge {
+  width: 2.5rem; height: 2.5rem; border-radius: 50%; display: grid; place-items: center; padding: 0;
+  border: 2px solid var(--blue); color: var(--blue); background: var(--white); font: 600 1rem var(--body); cursor: pointer;
+}
+.symbol.active .badge { background: var(--blue); color: #fff; }
+.sym-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.6rem; }
+.sym-head h3 { font-family: var(--display); font-weight: 400; color: var(--deep); font-size: 1.55rem; margin: 0; }
+.sym-head .el { color: var(--muted); font-style: italic; }
+.where { margin: 0.1rem 0 0.4rem; color: var(--blue); font-size: 0.93rem; font-style: italic; }
+.symbol p { margin: 0; }
+.relabel { margin-top: 0.6rem; color: var(--muted); font-size: 0.93rem; display: grid; gap: 0.3rem; }
+.relabel select {
+  font: 1rem var(--body); /* 16px or more stops iPhone Safari zooming in */
+  color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 0.45rem 0.5rem; min-height: 44px; max-width: 18rem;
+}
+.saucer { margin: 2rem 0 0; padding: 0.75rem 1rem; background: var(--pale); border-left: 3px solid var(--blue); }
+.closing { margin: 2rem auto 0; text-align: center; font-style: italic; color: var(--deep); max-width: 32rem; }
+
+.ai { margin-top: 2.5rem; border-top: 1px solid var(--line); padding-top: 0.5rem; }
+.ai summary { cursor: pointer; color: var(--blue); font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+.ai p { color: var(--muted); font-size: 0.95rem; }
+.ai > label { display: block; font-weight: 600; margin: 0.75rem 0 0.35rem; }
+.ai input[type="password"] { width: 100%; font: 1rem var(--body); padding: 0.6rem 0.75rem; border: 1px solid var(--line); border-radius: 4px; background: #fff; color: var(--ink); min-height: 44px; }
+.ai .btn { margin-top: 0.75rem; }
+.ai-out { margin-top: 1.5rem; font-size: 1.1rem; }
+.ai-out p { color: var(--ink); font-size: 1.1rem; }
+.ai-out .err { color: var(--ink); padding: 0.75rem 1rem; background: var(--pale); border-left: 3px solid var(--gold); font-size: 0.97rem; }
+
+.prepare { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.prepare ol { margin: 0; padding-left: 1.5rem; display: grid; gap: 0.6rem; }
+.prepare li::marker { color: var(--blue); font-weight: 600; }
+
+/* our tradition */
+.essay p { margin: 0 0 1.1rem; }
+.essay i { color: var(--deep); }
+.portrait { margin: 0 auto 1.5rem; max-width: 16rem; text-align: center; }
+.portrait img { width: 100%; display: block; background: #fff; padding: 8px; border: 1px solid var(--line); outline: 3px double var(--blue); outline-offset: 3px; }
+.portrait figcaption { font-style: italic; color: var(--muted); margin-top: 0.75rem; }
+.rule { height: 14px; margin: 2.5rem auto; width: 9rem; background: var(--blue);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='14'%3E%3Cpath d='M0 12.5H23.5V1.5H5.5V9.5H17.5V5.5H10.5' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E") repeat-x center / 26px 14px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='14'%3E%3Cpath d='M0 12.5H23.5V1.5H5.5V9.5H17.5V5.5H10.5' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E") repeat-x center / 26px 14px; }
+.map-wrap { display: grid; grid-template-columns: 14rem 1fr; gap: 1.5rem; align-items: start; }
+@media (max-width: 36rem) { .map-wrap { grid-template-columns: 1fr; } .map-svg { margin: 0 auto; } }
+.map-svg { width: 100%; max-width: 14rem; display: block; }
+.m-rim { fill: #fff; stroke: var(--blue); stroke-width: 4; }
+.m-ring { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.m-handle { fill: var(--blue); }
+.m-label { font: 14px var(--body); fill: var(--deep); text-anchor: middle; }
+.m-small { fill: var(--muted); font-size: 12px; font-style: italic; }
+
+/* symbols tab */
+#dictSearch {
+  display: block; width: 100%; max-width: 24rem; margin: 0 auto 1rem; font: 1rem var(--body);
+  padding: 0.6rem 0.8rem; border: 1px solid var(--line); border-radius: 4px; background: #fff; color: var(--ink); min-height: 44px;
+  -webkit-appearance: none; appearance: none;
+}
+.dict h3 { font-family: var(--display); font-weight: 400; font-size: 1.45rem; color: var(--blue); text-align: center; margin: 2rem 0 1rem; }
+.dict dl { margin: 0; }
+.dict .entry { padding: 0.65rem 0; border-bottom: 1px dotted var(--line); }
+.dict dt { font-weight: 600; color: var(--deep); }
+.dict dt span { font-weight: 400; color: var(--muted); font-style: italic; margin-left: 0.4rem; }
+.dict dd { margin: 0.1rem 0 0; }
+
+footer { max-width: 46rem; margin: 4rem auto 0; padding: 0 1.25rem 2.5rem; color: var(--muted); font-size: 0.93rem; text-align: center; }
+footer p { margin: 0 0 0.6rem; }
+
+</style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Sections">
+    <div class="tabs" role="tablist">
+      <a href="#read" role="tab" id="tab-read" aria-controls="read">Read my cup</a>
+      <a href="#tradition" role="tab" id="tab-tradition" aria-controls="tradition">Our tradition</a>
+      <a href="#symbols" role="tab" id="tab-symbols" aria-controls="symbols">The symbols</a>
+    </div>
+  </nav>
+  <div class="band" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <svg class="emblem" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A Greek coffee cup with blue flowers on its saucer">
+      <defs>
+        <g id="fl">
+          <circle cx="0" cy="-5" r="4.2"/><circle cx="4.8" cy="-1.5" r="4.2"/><circle cx="3" cy="4" r="4.2"/>
+          <circle cx="-3" cy="4" r="4.2"/><circle cx="-4.8" cy="-1.5" r="4.2"/>
+          <circle cx="0" cy="0" r="2.2" fill="#e8c47c"/>
+        </g>
+      </defs>
+      <!-- steam -->
+      <g fill="none" stroke="#a9bfdd" stroke-width="2.5" stroke-linecap="round">
+        <path d="M98 40c-7-8 7-12 0-21s5-12 1-17"/>
+        <path d="M120 36c-7-8 7-12 0-21"/>
+        <path d="M142 40c-7-8 7-12 0-21s5-12 1-17"/>
+      </g>
+      <!-- saucer -->
+      <ellipse cx="120" cy="160" rx="108" ry="24" fill="#fbf7ef" stroke="#4f78b8" stroke-width="3.5"/>
+      <ellipse cx="120" cy="156" rx="72" ry="13" fill="none" stroke="#e2d8c8" stroke-width="2"/>
+      <g fill="#6f93cf">
+        <use href="#fl" transform="translate(30 158) scale(.6)"/>
+        <use href="#fl" transform="translate(62 174) scale(.6)"/>
+        <use href="#fl" transform="translate(178 174) scale(.6)"/>
+        <use href="#fl" transform="translate(210 158) scale(.6)"/>
+      </g>
+      <g fill="#93a77d">
+        <ellipse cx="45" cy="168" rx="4" ry="2" transform="rotate(20 45 168)"/>
+        <ellipse cx="195" cy="168" rx="4" ry="2" transform="rotate(-20 195 168)"/>
+      </g>
+      <!-- handle -->
+      <path d="M184 76c26-8 30 34-12 44" fill="none" stroke="#7a6d63" stroke-width="10" stroke-linecap="round"/>
+      <path d="M184 76c26-8 30 34-12 44" fill="none" stroke="#fbf7ef" stroke-width="5" stroke-linecap="round"/>
+      <!-- cup body -->
+      <path d="M52 62C52 106 70 140 98 148H142C170 140 188 106 188 62Z" fill="#fbf7ef" stroke="#7a6d63" stroke-width="2.5" stroke-linejoin="round"/>
+      <ellipse cx="120" cy="149" rx="26" ry="5" fill="#fbf7ef" stroke="#7a6d63" stroke-width="2"/>
+      <!-- flower garland -->
+      <g fill="none" stroke="#93a77d" stroke-width="2" stroke-linecap="round">
+        <path d="M70 104c14 6 22 2 32 10"/><path d="M118 118c8-8 18-10 28-6"/><path d="M152 98c6 6 14 6 20 2"/>
+      </g>
+      <g fill="#93a77d">
+        <ellipse cx="86" cy="110" rx="5" ry="2.4" transform="rotate(25 86 110)"/>
+        <ellipse cx="132" cy="112" rx="5" ry="2.4" transform="rotate(-20 132 112)"/>
+        <ellipse cx="163" cy="102" rx="4.5" ry="2.2" transform="rotate(10 163 102)"/>
+      </g>
+      <g fill="#6f93cf">
+        <use href="#fl" transform="translate(70 96)"/>
+        <use href="#fl" transform="translate(104 116) scale(.8)"/>
+        <use href="#fl" transform="translate(120 98) scale(1.15)"/>
+        <use href="#fl" transform="translate(148 112) scale(.75)"/>
+        <use href="#fl" transform="translate(170 88)"/>
+      </g>
+      <!-- rim and coffee -->
+      <ellipse cx="120" cy="62" rx="68" ry="13" fill="#fbf7ef" stroke="#4f78b8" stroke-width="4"/>
+      <ellipse cx="120" cy="64" rx="58" ry="9" fill="#9a6a3f"/>
+      <ellipse cx="117" cy="63" rx="46" ry="6" fill="#c3925e"/>
+      <ellipse cx="108" cy="62" rx="16" ry="2.2" fill="#d6ab79"/>
+    </svg>
+    <h1>Yiayia reads my coffee cup</h1>
+    <p class="greek" lang="el">Η γιαγιά διαβάζει το φλιτζάνι μου</p>
+  </header>
+
+
+  <main>
+    <!-- ================= READ MY CUP ================= -->
+    <section id="read" class="panel" role="tabpanel" aria-labelledby="tab-read">
+      <p class="lede">Drink your coffee, make a wish, and turn the cup over onto its saucer. When it has cooled, take a photo looking straight down into the cup and show it to Yiayia.</p>
+
+      <div class="stage" id="stage">
+        <label class="empty" id="empty" for="file">
+          <svg viewBox="0 0 200 200" aria-hidden="true" class="empty-cup">
+            <circle cx="100" cy="100" r="88" class="ec-cup"/>
+            <circle cx="100" cy="100" r="80" class="ec-band"/>
+            <circle cx="100" cy="100" r="75" class="ec-cup"/>
+            <path class="ec-grounds" d="M70 120c10-20 30-8 36-28s26-14 30 4-20 30-36 24-34 18-30 0z"/>
+            <circle cx="128" cy="70" r="4" class="ec-grounds"/><circle cx="138" cy="80" r="3" class="ec-grounds"/>
+            <rect x="186" y="88" width="13" height="24" rx="6" class="ec-band"/>
+          </svg>
+          <span class="btn">Choose a photo</span>
+          <span class="empty-hint">Or take one now. Hold the phone level above the cup, in good daylight, without flash.</span>
+        </label>
+        <canvas id="canvas" hidden></canvas>
+        <div class="busy" id="busy" role="status" hidden>Yiayia is looking…</div>
+      </div>
+      <input type="file" id="file" accept="image/*" multiple class="visually-hidden">
+
+      <div class="tools" id="tools" hidden>
+        <div class="thumbs" id="thumbs" aria-label="Your photos"></div>
+        <div class="tool-row">
+          <label class="btn btn-plain" for="file">Add another photo</label>
+          <button type="button" class="btn btn-plain" id="adjust" aria-pressed="false">Adjust the circle</button>
+        </div>
+        <p class="help" id="stageHelp" hidden>Move the blue circle so it sits on the inside edge of the cup: drag the middle to move it, drag the edge to resize it, and drag the gold dot to where the handle is. Tap <em>Done</em> when it fits.</p>
+
+        <fieldset class="field">
+          <legend>This photo shows</legend>
+          <div class="seg">
+            <input type="radio" name="kind" id="kindCup" value="cup" checked><label for="kindCup">The cup</label>
+            <input type="radio" name="kind" id="kindSaucer" value="saucer"><label for="kindSaucer">The saucer</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="handle">Where is the handle?</label>
+          <input type="range" id="handle" min="0" max="359" step="1" value="90">
+          <p class="note">Slide until the gold dot sits at the handle. The handle side of the cup is you.</p>
+        </div>
+
+        <details class="more">
+          <summary>More settings</summary>
+          <fieldset class="field">
+            <legend>Read the timing</legend>
+            <div class="seg">
+              <input type="radio" name="trad" id="tradGreek" value="greek" checked><label for="tradGreek">Greek way</label>
+              <input type="radio" name="trad" id="tradTurkish" value="turkish"><label for="tradTurkish">Turkish way</label>
+            </div>
+            <p class="note" id="tradNote"></p>
+          </fieldset>
+          <div class="field">
+            <label for="sens">How much of the grounds to read</label>
+            <input type="range" id="sens" min="-1" max="1" step="0.1" value="0">
+            <div class="range-ends"><span>Only the darkest</span><span>Faint stains too</span></div>
+          </div>
+          <label class="check"><input type="checkbox" id="showMask"> Show what the computer sees</label>
+          <button type="button" class="btn btn-plain" id="resetCup">Find the cup again</button>
+        </details>
+      </div>
+
+      <article class="reading" id="reading" aria-live="polite" hidden>
+        <h2>Yiayia says…</h2>
+        <p class="overview" id="overview"></p>
+        <ol class="symbols" id="symbolsList"></ol>
+        <p class="saucer" id="saucer" hidden></p>
+        <p class="closing" id="closing"></p>
+
+        <details class="ai" id="ai">
+          <summary>Have Yiayia tell it as a story</summary>
+          <p>Claude looks at your photo and the symbols above and writes your reading as a story, in Yiayia's voice. This uses your own Anthropic API key, sent straight from your phone or computer to Anthropic. Your photos go nowhere unless you press the button.</p>
+          <label for="apiKey">Anthropic API key</label>
+          <input type="password" id="apiKey" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sk-ant-…">
+          <label class="check"><input type="checkbox" id="rememberKey"> Remember the key on this device</label>
+          <button type="button" class="btn" id="aiGo">Tell my story</button>
+          <div class="ai-out" id="aiOut"></div>
+        </details>
+      </article>
+
+      <section class="prepare" aria-labelledby="prepTitle">
+        <h2 id="prepTitle">Preparing your cup</h2>
+        <ol>
+          <li>Make a proper Greek coffee in a briki and drink it slowly, leaving the thick grounds at the bottom.</li>
+          <li>Hold the cup by the handle, make a wish, and swirl it three times so the grounds coat the walls.</li>
+          <li>Cover it with the saucer and turn it over in one steady motion. Leave it five to ten minutes to cool and dry.</li>
+          <li>Lift the cup and photograph straight down into it. Photograph the saucer too, if you like.</li>
+        </ol>
+      </section>
+    </section>
+
+    <!-- ================= OUR TRADITION ================= -->
+    <section id="tradition" class="panel" role="tabpanel" aria-labelledby="tab-tradition" hidden>
+      <article class="essay">
+        <h2>How it started: Thea Maria</h2>
+        <figure class="portrait" id="portrait">
+          <img src="thea-maria.jpg" alt="Thea Maria" id="portraitImg">
+          <figcaption lang="el">Θεία Μαρία</figcaption>
+        </figure>
+        <p>This little website began with my Thea Maria, my aunt, the reader of our family's cups.</p>
+        <p>When the coffee was finished, the cups were turned over onto their saucers and left to cool, and then, one by one, they found their way to her. She would lift each cup, turn it slowly in her hands, and peer inside as if reading a letter. Then she would tell us our fortunes.</p>
+        <p>A bird meant news was coming. A ring meant somebody was in love. A road meant a journey, and a dark patch was a worry about to lift. The way she told it had all of us giggling, teasing each other about whatever she had found, and waiting for our turn.</p>
+        <p>But under the laughter there was something more. Her readings left us feeling inspired, a little braver about the things we were hoping for, and a lot of real advice was passed across that table in those moments. Some of it we still repeat to each other today.</p>
+        <p>Yiayia here is a small way of keeping that tradition at the table, so anyone can turn their cup over, laugh a little, and leave with something good to think about.</p>
+
+        <div class="rule" aria-hidden="true"></div>
+
+        <h2>What reading the cup means</h2>
+        <p>In Greek it is called <i lang="el">καφεμαντεία</i>, kafemanteía, from <i>kafés</i>, coffee, and <i>manteía</i>, divination. The wider world knows it as tasseography. It is only possible because of the way Greek coffee is made: finely ground coffee boiled slowly in a small pot called a <i>bríki</i>, poured unfiltered with its foam, the <i>kaïmáki</i>, into a small cup and served with a glass of cold water. Whether you take it <i>skétos</i> (no sugar), <i>métrios</i> (medium) or <i>glykós</i> (sweet), the thick grounds left at the bottom are what the reader needs.</p>
+        <p>Cup reading arrived with coffee itself, travelling through the Ottoman world from the sixteenth century onward, and it is shared today across Greece, Cyprus, Turkey, the Balkans, Armenia and the Middle East. Each place has its own habits and its own favourite symbols, but the heart of it is the same.</p>
+        <p>In Greek homes it has mostly lived in the kitchen and the living room rather than the café. A visit, a coffee, and then the cups are turned over while the conversation carries on. The readers were usually the women of the family and the neighbourhood: a yiayia, a thea, a neighbour with a gift for it. Many families hold that you should never read your own cup; someone else has to do it for you.</p>
+        <p>Very few people take it as true prophecy, and the Orthodox Church has never approved of fortune-telling. That has never stopped it. A reading is really a gentle conversation: a way to talk about love, work, travel, worries and hopes, with the symbols opening the door. A good reader sees the person as much as the grounds, and the best readings end with laughter and a bit of wisdom you didn't know you needed.</p>
+
+        <div class="rule" aria-hidden="true"></div>
+
+        <h2>How the cup is read</h2>
+        <div class="map-wrap">
+          <svg viewBox="0 0 260 260" role="img" aria-labelledby="mapTitle" class="map-svg">
+            <title id="mapTitle">The cup seen from above: rim, walls and bottom rings, with the handle on the right meaning yourself</title>
+            <circle cx="130" cy="130" r="118" class="m-rim"/>
+            <circle cx="130" cy="130" r="79" class="m-ring"/>
+            <circle cx="130" cy="130" r="40" class="m-ring"/>
+            <rect x="246" y="116" width="12" height="28" rx="6" class="m-handle"/>
+            <text x="130" y="32" class="m-label" id="mapRim">Future</text>
+            <text x="130" y="72" class="m-label" id="mapMid">Present</text>
+            <text x="130" y="135" class="m-label" id="mapBot">Past</text>
+            <text x="216" y="182" class="m-label m-small">You</text>
+            <text x="44" y="182" class="m-label m-small">The world</text>
+          </svg>
+          <div>
+            <p>Where a shape sits matters as much as the shape itself. In the Greek way, the bottom of the cup holds the past, the walls the present, and the rim the future.</p>
+            <p>The handle stands for you, your heart and your home. Shapes on the far side speak of work, money, travel and other people. Big, clear shapes are strong signs; small, faint ones are gentle hints. A light cup is a light heart; a dark, heavy cup means there is a lot on your mind.</p>
+            <p>Finally, the saucer is read for the home. A clean saucer means a peaceful house.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ================= THE SYMBOLS ================= -->
+    <section id="symbols" class="panel" role="tabpanel" aria-labelledby="tab-symbols" hidden>
+      <h2>The symbols Yiayia looks for</h2>
+      <label for="dictSearch" class="visually-hidden">Search symbols</label>
+      <input type="search" id="dictSearch" placeholder="Search: bird, love, money…" autocapitalize="off">
+      <div id="dict" class="dict"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="band band-small" aria-hidden="true"></div>
+    <p>Made with love, in memory of the cups Thea Maria read. For fun and for the ritual, not for prediction. Everything runs on your own device; your photos stay with you.</p>
+    <p>Symbol meanings are summarised from
+      <a href="https://cappadociaworkshops.com/turkish-coffee-cup-reading-symbols">Cappadocia Workshops</a>,
+      <a href="https://www.ekaterinabotziou.com/how-to-read-a-greek-coffee-cup/">Ekaterina Botziou</a>,
+      <a href="https://www.instructables.com/Turkish-Coffee-Fortune-Telling/">Instructables</a> and
+      <a href="https://www.getgreece.com/coffee/greek-coffee-readings">GetGreece</a>.</p>
+  </footer>
+
+  <script type="module">
+// ---- js/symbols.js ----
+// symbols.js — the reader's dictionary.
+// Meanings are paraphrased summaries of common kafemanteia / kahve falı interpretations.
+// tone: 1 = favourable, 0 = mixed or neutral, -1 = a caution.
+// family groups symbols in the relabel menu.
+
+const SYMBOLS = {
+  // shapes & patterns (what the computer vision can propose directly)
+  dot:      { name: 'Speck', el: 'κουκκίδα', family: 'Shapes', tone: 0, meaning: 'A small speck of grounds.' },
+  dots:     { name: 'Dots', el: 'τελείες', family: 'Shapes', tone: 1, meaning: 'Money is on its way. A tight cluster means a single sum; scattered dots mean many small gains over time.' },
+  circle:   { name: 'Circle', el: 'κύκλος', family: 'Shapes', tone: 1, meaning: 'Something comes full circle: a project finishes or a cycle closes successfully. Several small circles can also mean coins.' },
+  ring:     { name: 'Ring', el: 'δαχτυλίδι', family: 'Objects', tone: 1, meaning: 'A commitment: engagement, marriage, or a binding promise. An unbroken ring is a strong partnership; a broken one, a promise under strain.' },
+  line:     { name: 'Straight line', el: 'ευθεία', family: 'Shapes', tone: 1, meaning: 'A clear road ahead. Your plans are concrete and the path toward them is direct.' },
+  wavy:     { name: 'Wavy line', el: 'κυματιστή γραμμή', family: 'Shapes', tone: 0, meaning: 'A winding road with twists and some uncertainty. You will get there, but not in a straight line.' },
+  waves:    { name: 'Waves', el: 'κύματα', family: 'Shapes', tone: 0, meaning: 'Feelings rising and falling. Gentle waves are calm; choppy ones point to anxiety that has not settled yet.' },
+  triangle: { name: 'Triangle', el: 'τρίγωνο', family: 'Shapes', tone: 1, meaning: 'Sudden change that works out well. Pointing up it means success; pointing down, an unsettling shift that leads somewhere better.' },
+  star:     { name: 'Star', el: 'αστέρι', family: 'Shapes', tone: 1, meaning: 'A wish granted and a sign you are on the right path. Several stars mean a lucky, inspired stretch.' },
+  crescent: { name: 'Crescent moon', el: 'μισοφέγγαρο', family: 'Shapes', tone: 1, meaning: 'A new chapter and inner growth. A period of reflection will bring real insight.' },
+  cross:    { name: 'Cross', el: 'σταυρός', family: 'Shapes', tone: -1, meaning: 'A crossroads. An important decision or a sacrifice is needed before you can move forward.' },
+  spiral:   { name: 'Spiral', el: 'σπείρα', family: 'Shapes', tone: 0, meaning: 'A time of searching. The way is not clear yet, so be patient while you look for direction.' },
+  cloud:    { name: 'Dark mass', el: 'σύννεφο', family: 'Shapes', tone: -1, meaning: 'A heavy patch of grounds: worries or a burden pressing on you. Look at what surrounds it to see what lifts it.' },
+  figure:   { name: 'Unclear figure', el: 'μορφή', family: 'Shapes', tone: 0, meaning: 'A shape that wants a closer look. Turn the cup and let your eye decide: readers often find an animal or a person here.' },
+
+  // animals
+  bird:      { name: 'Bird', el: 'πουλί', family: 'Animals', tone: 1, meaning: 'Good news is coming: a message, a letter, or a visitor. In flight it can also mean a journey.' },
+  dog:       { name: 'Dog', el: 'σκύλος', family: 'Animals', tone: 1, meaning: 'A loyal friend. Someone dependable is close by or thinking of you.' },
+  cat:       { name: 'Cat', el: 'γάτα', family: 'Animals', tone: 0, meaning: 'Trust your own instincts. It can also hint at someone cunning or secretive nearby.' },
+  fish:      { name: 'Fish', el: 'ψάρι', family: 'Animals', tone: 1, meaning: 'One of the luckiest signs: abundance and prosperity. A big fish is a big gain; many small fish, steady blessings.' },
+  horse:     { name: 'Horse', el: 'άλογο', family: 'Animals', tone: 1, meaning: 'Strength and swift progress, or travel. News may arrive quickly from far away.' },
+  snake:     { name: 'Snake', el: 'φίδι', family: 'Animals', tone: -1, meaning: 'Caution: someone may not be trustworthy. Coiled, a hidden threat; stretched out, gossip or lies.' },
+  butterfly: { name: 'Butterfly', el: 'πεταλούδα', family: 'Animals', tone: 1, meaning: 'Transformation. You are entering a new phase, and the change will be a beautiful one.' },
+  rabbit:    { name: 'Rabbit', el: 'κουνέλι', family: 'Animals', tone: 1, meaning: 'New beginnings and luck, especially in family life, though also a nudge not to hold back out of shyness.' },
+  owl:       { name: 'Owl', el: 'κουκουβάγια', family: 'Animals', tone: 0, meaning: 'Wisdom and a warning together: good counsel is coming, and something you have ignored needs attention.' },
+  turtle:    { name: 'Turtle', el: 'χελώνα', family: 'Animals', tone: 1, meaning: 'Slow and steady wins. Patience, good health, and a long life.' },
+  dolphin:   { name: 'Dolphin', el: 'δελφίνι', family: 'Animals', tone: 1, meaning: 'Joy and lightheartedness ahead, perhaps a happy reunion.' },
+  lion:      { name: 'Lion', el: 'λιοντάρι', family: 'Animals', tone: 1, meaning: 'Courage and authority. You can overcome what you face, or a powerful ally appears. Possibly a promotion.' },
+  eagle:     { name: 'Eagle', el: 'αετός', family: 'Animals', tone: 1, meaning: 'High ambition within reach: a breakthrough or a major accomplishment.' },
+  spider:    { name: 'Spider', el: 'αράχνη', family: 'Animals', tone: 1, meaning: 'Hard work pays off in money, or an unexpected sum arrives.' },
+  bear:      { name: 'Bear', el: 'αρκούδα', family: 'Animals', tone: 0, meaning: 'A strong protector, though beware of being too stubborn.' },
+  elephant:  { name: 'Elephant', el: 'ελέφαντας', family: 'Animals', tone: 1, meaning: 'Wise decisions and lasting success. Something from the past returns and proves important.' },
+  wolf:      { name: 'Wolf', el: 'λύκος', family: 'Animals', tone: 0, meaning: 'Either a predatory person or your own fierce loyalty. The symbols around it decide which.' },
+  rooster:   { name: 'Rooster', el: 'κόκορας', family: 'Animals', tone: 1, meaning: 'A fresh start, or news that will be announced publicly.' },
+  scorpion:  { name: 'Scorpion', el: 'σκορπιός', family: 'Animals', tone: -1, meaning: 'Someone may hold a grudge against you, or you are holding on to anger of your own.' },
+  deer:      { name: 'Deer', el: 'ελάφι', family: 'Animals', tone: 1, meaning: 'Gentleness works better than force. A kind person or a peaceful time is coming.' },
+
+  // people & body
+  eye:    { name: 'Eye', el: 'μάτι', family: 'People', tone: 0, meaning: 'Someone is watching over you, or someone envies you. A reminder to stay observant.' },
+  face:   { name: 'Face', el: 'πρόσωπο', family: 'People', tone: 0, meaning: 'A new person enters your life. Their expression tells you whether to welcome or be careful.' },
+  hand:   { name: 'Hand', el: 'χέρι', family: 'People', tone: 1, meaning: 'Help is on the way. An open hand is a gift or generosity; a fist, determination or a quarrel.' },
+  heart:  { name: 'Heart', el: 'καρδιά', family: 'People', tone: 1, meaning: 'Love and strong feeling. A well-formed heart means love is growing; a split one, heartache or a choice between two.' },
+  baby:   { name: 'Baby', el: 'μωρό', family: 'People', tone: 1, meaning: 'A new beginning: a new idea, project, or phase, and sometimes family news.' },
+  woman:  { name: 'Woman', el: 'γυναίκα', family: 'People', tone: 0, meaning: 'An important female influence in your life, now or soon.' },
+  man:    { name: 'Man', el: 'άντρας', family: 'People', tone: 0, meaning: 'An important male influence in your life, now or soon.' },
+  lips:   { name: 'Lips', el: 'χείλη', family: 'People', tone: 1, meaning: 'A kiss, a confession, or loving words. Someone is speaking about you.' },
+  dancer: { name: 'Dancing figure', el: 'χορευτής', family: 'People', tone: 1, meaning: 'Celebration ahead: a wedding, a party, or simply a carefree time.' },
+
+  // objects
+  key:      { name: 'Key', el: 'κλειδί', family: 'Objects', tone: 1, meaning: 'An opportunity or the answer to a problem. Several keys mean several doors opening.' },
+  tree:     { name: 'Tree', el: 'δέντρο', family: 'Objects', tone: 1, meaning: 'Family, growth, and deep roots. Full branches mean flourishing; bare ones, a rest before renewal.' },
+  house:    { name: 'House', el: 'σπίτι', family: 'Objects', tone: 1, meaning: 'Security at home, or a move, renovation, or important event in the household.' },
+  mountain: { name: 'Mountain', el: 'βουνό', family: 'Objects', tone: 0, meaning: 'An obstacle and a great ambition at once. The effort is real, and so is the reward at the top.' },
+  bridge:   { name: 'Bridge', el: 'γέφυρα', family: 'Objects', tone: 1, meaning: 'A successful crossing into a new phase, or a connection between two people.' },
+  sword:    { name: 'Sword', el: 'σπαθί', family: 'Objects', tone: 0, meaning: 'Conflict or a legal matter, but also the courage to take a stand and cut through confusion.' },
+  book:     { name: 'Book', el: 'βιβλίο', family: 'Objects', tone: 1, meaning: 'Knowledge and discovery. Open, news is coming; closed, a secret not yet revealed.' },
+  crown:    { name: 'Crown', el: 'στέμμα', family: 'Objects', tone: 1, meaning: 'Success and recognition: a promotion or an award for your efforts.' },
+  candle:   { name: 'Candle', el: 'κερί', family: 'Objects', tone: 1, meaning: 'Hope and clarity. Someone or something will light the way.' },
+  ship:     { name: 'Ship', el: 'καράβι', family: 'Objects', tone: 1, meaning: 'A journey, trade, or news from far away.' },
+  airplane: { name: 'Aeroplane', el: 'αεροπλάνο', family: 'Objects', tone: 1, meaning: 'Travel, or someone arriving from abroad. Next to a heart, a foreigner you may fall for.' },
+  umbrella: { name: 'Umbrella', el: 'ομπρέλα', family: 'Objects', tone: 1, meaning: 'Protection. Open, you are sheltered; closed, help is offered but not yet accepted.' },
+  clock:    { name: 'Clock', el: 'ρολόι', family: 'Objects', tone: 0, meaning: 'Timing matters. What you are waiting for will come, but not yet; don\'t put off what matters.' },
+  ladder:   { name: 'Ladder', el: 'σκάλα', family: 'Objects', tone: 1, meaning: 'Advancement one step at a time. A broken rung warns of a setback.' },
+  door:     { name: 'Door', el: 'πόρτα', family: 'Objects', tone: 1, meaning: 'A threshold. Open, the opportunity is here now; closed, wait for the right moment.' },
+  cup:      { name: 'Cup', el: 'φλιτζάνι', family: 'Objects', tone: 1, meaning: 'Friendship and hospitality. Gatherings ahead, or an old friend reaches out.' },
+  mirror:   { name: 'Mirror', el: 'καθρέφτης', family: 'Objects', tone: 0, meaning: 'Look inward and be honest with yourself; the answer is already in you.' },
+
+  // letters & numbers
+  letter: { name: 'Letter', el: 'γράμμα', family: 'Letters & numbers', tone: 0, meaning: 'The initial of someone important to you, now or soon.' },
+  number: { name: 'Number', el: 'αριθμός', family: 'Letters & numbers', tone: 0, meaning: 'A span of time until something happens. Near the rim count days, in the middle weeks, at the bottom months.' },
+};
+
+// Where things sit in the cup. Your sources disagree on time, so both traditions are offered.
+const TRADITIONS = {
+  greek: {
+    label: 'Greek',
+    rings: {
+      rim: { time: 'the future', short: 'Future' },
+      middle: { time: 'the present', short: 'Present' },
+      bottom: { time: 'the past', short: 'Past' },
+    },
+  },
+  turkish: {
+    label: 'Turkish',
+    rings: {
+      rim: { time: 'the next week or two', short: 'Soon' },
+      middle: { time: 'the coming months', short: 'Months' },
+      bottom: { time: 'the distant future, or something deep and long-standing', short: 'Distant' },
+    },
+  },
+};
+
+const SIDES = {
+  handle:   { area: 'your own heart and home', short: 'You & home' },
+  opposite: { area: 'work, money, travel and the wider world', short: 'Outside world' },
+  left:     { area: 'what is fading or behind you', short: 'Fading' },
+  right:    { area: 'what is approaching and growing stronger', short: 'Approaching' },
+  centre:   { area: 'the heart of the matter', short: 'Core' },
+};
+
+// ---- js/vision.js ----
+// vision.js — pure, dependency-free computer vision for coffee cup images.
+// Works on any {data, width, height} RGBA buffer (browser ImageData or a test fixture).
+
+/* ---------- basics ---------- */
+
+function toGray({ data, width, height }) {
+  const g = new Float32Array(width * height);
+  for (let i = 0, p = 0; p < g.length; i += 4, p++) {
+    g[p] = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+  }
+  return g;
+}
+
+function otsu(values) {
+  const hist = new Float64Array(256);
+  for (const v of values) hist[Math.max(0, Math.min(255, v | 0))]++;
+  const total = values.length;
+  let sum = 0;
+  for (let i = 0; i < 256; i++) sum += i * hist[i];
+  let sumB = 0, wB = 0, best = 0, thresh = 127;
+  for (let t = 0; t < 256; t++) {
+    wB += hist[t];
+    if (!wB) continue;
+    const wF = total - wB;
+    if (!wF) break;
+    sumB += t * hist[t];
+    const mB = sumB / wB, mF = (sum - sumB) / wF;
+    const between = wB * wF * (mB - mF) ** 2;
+    if (between > best) { best = between; thresh = t; }
+  }
+  return thresh;
+}
+
+function integral(gray, w, h) {
+  const I = new Float64Array((w + 1) * (h + 1));
+  for (let y = 0; y < h; y++) {
+    let row = 0;
+    for (let x = 0; x < w; x++) {
+      row += gray[y * w + x];
+      I[(y + 1) * (w + 1) + x + 1] = I[y * (w + 1) + x + 1] + row;
+    }
+  }
+  return I;
+}
+
+function boxMean(I, w, h, x, y, r) {
+  const x0 = Math.max(0, x - r), y0 = Math.max(0, y - r);
+  const x1 = Math.min(w, x + r + 1), y1 = Math.min(h, y + r + 1);
+  const W = w + 1;
+  const s = I[y1 * W + x1] - I[y0 * W + x1] - I[y1 * W + x0] + I[y0 * W + x0];
+  return s / ((x1 - x0) * (y1 - y0));
+}
+
+function morph(mask, w, h, erode) {
+  const out = new Uint8Array(mask.length);
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      let v = erode ? 1 : 0;
+      for (let dy = -1; dy <= 1 && (erode ? v : !v); dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          const xx = x + dx, yy = y + dy;
+          const m = xx < 0 || yy < 0 || xx >= w || yy >= h ? 0 : mask[yy * w + xx];
+          if (erode && !m) { v = 0; break; }
+          if (!erode && m) { v = 1; break; }
+        }
+      }
+      out[y * w + x] = v;
+    }
+  }
+  return out;
+}
+
+/* ---------- connected components ---------- */
+
+function components(mask, w, h, minArea = 1) {
+  const label = new Int32Array(mask.length).fill(-1);
+  const comps = [];
+  const stack = new Int32Array(mask.length);
+  for (let start = 0; start < mask.length; start++) {
+    if (!mask[start] || label[start] !== -1) continue;
+    const id = comps.length;
+    const pixels = [];
+    let sp = 0;
+    stack[sp++] = start;
+    label[start] = id;
+    while (sp) {
+      const p = stack[--sp];
+      pixels.push(p);
+      const x = p % w, y = (p / w) | 0;
+      for (let dy = -1; dy <= 1; dy++) {
+        const yy = y + dy;
+        if (yy < 0 || yy >= h) continue;
+        for (let dx = -1; dx <= 1; dx++) {
+          const xx = x + dx;
+          if (xx < 0 || xx >= w) continue;
+          const q = yy * w + xx;
+          if (mask[q] && label[q] === -1) { label[q] = id; stack[sp++] = q; }
+        }
+      }
+    }
+    comps.push(pixels);
+  }
+  return { comps: comps.filter((c) => c.length >= minArea), label };
+}
+
+/* ---------- cup detection ---------- */
+
+// Finds the bright porcelain region nearest the image centre, fills it, and fits a circle.
+// Falls back to a centred guess the user can drag into place.
+function detectCup(img) {
+  const { width: w, height: h } = img;
+  const gray = toGray(img);
+  const fallback = { cx: w / 2, cy: h / 2, r: Math.min(w, h) * 0.42, auto: false };
+  try {
+    const t = otsu(gray);
+    let bright = new Uint8Array(gray.length);
+    for (let i = 0; i < gray.length; i++) bright[i] = gray[i] > t ? 1 : 0;
+    bright = morph(morph(bright, w, h, false), w, h, true); // close small gaps
+    const { comps } = components(bright, w, h, (w * h) * 0.01);
+    if (!comps.length) return fallback;
+    // choose the component whose centroid is closest to image centre, weighted by size
+    let best = null, bestScore = -Infinity;
+    for (const c of comps) {
+      let sx = 0, sy = 0;
+      for (const p of c) { sx += p % w; sy += (p / w) | 0; }
+      const cx = sx / c.length, cy = sy / c.length;
+      const d = Math.hypot(cx - w / 2, cy - h / 2) / Math.min(w, h);
+      const score = Math.log(c.length) - 6 * d;
+      if (score > bestScore) { bestScore = score; best = c; }
+    }
+    // the porcelain ring encloses the grounds: use the bounding extent of the ring
+    let minX = w, maxX = 0, minY = h, maxY = 0;
+    for (const p of best) {
+      const x = p % w, y = (p / w) | 0;
+      if (x < minX) minX = x; if (x > maxX) maxX = x;
+      if (y < minY) minY = y; if (y > maxY) maxY = y;
+    }
+    const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+    const r = Math.min(maxX - minX, maxY - minY) / 2 * 0.94; // step in from the outer lip
+    const m = Math.min(w, h);
+    if (r < m * 0.18 || r > m * 0.52) return fallback;
+    return { cx, cy, r, auto: true };
+  } catch {
+    return fallback;
+  }
+}
+
+/* ---------- segmentation ---------- */
+
+// Returns a mask of coffee grounds inside the cup circle.
+// sensitivity: -1 (only the darkest grounds) … +1 (include faint stains)
+function segmentGrounds(img, cup, sensitivity = 0) {
+  const { width: w, height: h } = img;
+  const gray = toGray(img);
+  const inner = cup.r * 0.96;
+  const inside = new Uint8Array(w * h);
+  const vals = [];
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if ((x - cup.cx) ** 2 + (y - cup.cy) ** 2 <= inner * inner) {
+        inside[y * w + x] = 1;
+        vals.push(gray[y * w + x]);
+      }
+    }
+  }
+  if (!vals.length) return { mask: new Uint8Array(w * h), inside, coverage: 0 };
+
+  // Otsu inside the cup, guarded so an almost-clean cup doesn't split porcelain into "grounds"
+  let t = otsu(vals);
+  const sorted = Float32Array.from(vals).sort();
+  const bright = sorted[Math.floor(sorted.length * 0.9)];
+  t = Math.min(t, bright * 0.82);
+  t += sensitivity * 28;
+
+  const I = integral(gray, w, h);
+  const rad = Math.max(4, Math.round(cup.r / 6));
+  let mask = new Uint8Array(w * h);
+  for (let p = 0; p < mask.length; p++) {
+    if (!inside[p]) continue;
+    const v = gray[p];
+    if (v < t) { mask[p] = 1; continue; }
+    // adaptive term catches faint shapes under uneven lighting
+    const x = p % w, y = (p / w) | 0;
+    const local = boxMean(I, w, h, x, y, rad);
+    if (v < local * (0.8 + sensitivity * 0.06) && v < t + 30) mask[p] = 1;
+  }
+  mask = morph(mask, w, h, true); mask = morph(mask, w, h, false);   // open: remove speckle
+  mask = morph(mask, w, h, false); mask = morph(mask, w, h, true);   // close: join broken strokes
+  for (let p = 0; p < mask.length; p++) if (!inside[p]) mask[p] = 0;
+
+  let dark = 0, total = 0;
+  for (let p = 0; p < mask.length; p++) if (inside[p]) { total++; dark += mask[p]; }
+  return { mask, inside, coverage: total ? dark / total : 0 };
+}
+
+/* ---------- shape features ---------- */
+
+function convexHull(points) {
+  const pts = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  if (pts.length < 3) return pts;
+  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const lower = [], upper = [];
+  for (const p of pts) {
+    while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop();
+    lower.push(p);
+  }
+  for (let i = pts.length - 1; i >= 0; i--) {
+    const p = pts[i];
+    while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop();
+    upper.push(p);
+  }
+  return lower.slice(0, -1).concat(upper.slice(0, -1));
+}
+
+function polyArea(poly) {
+  let a = 0;
+  for (let i = 0; i < poly.length; i++) {
+    const [x1, y1] = poly[i], [x2, y2] = poly[(i + 1) % poly.length];
+    a += x1 * y2 - x2 * y1;
+  }
+  return Math.abs(a) / 2;
+}
+
+function countPeaks(sig, minProm) {
+  const n = sig.length;
+  let peaks = 0;
+  for (let i = 0; i < n; i++) {
+    const v = sig[i];
+    let isMax = true;
+    for (let k = 1; k <= 3; k++) {
+      if (sig[(i + k) % n] > v || sig[(i - k + n) % n] >= v) { isMax = false; break; }
+    }
+    if (!isMax) continue;
+    // prominence: drop to the lowest point within ±n/4 on each side
+    let lowL = v, lowR = v;
+    for (let k = 1; k < n / 4; k++) {
+      lowL = Math.min(lowL, sig[(i - k + n) % n]);
+      lowR = Math.min(lowR, sig[(i + k) % n]);
+    }
+    if (v - Math.max(lowL, lowR) >= minProm) peaks++;
+  }
+  return peaks;
+}
+
+function measure(pixels, mask, w, h) {
+  const set = new Set(pixels);
+  let sx = 0, sy = 0, minX = w, maxX = 0, minY = h, maxY = 0;
+  for (const p of pixels) {
+    const x = p % w, y = (p / w) | 0;
+    sx += x; sy += y;
+    if (x < minX) minX = x; if (x > maxX) maxX = x;
+    if (y < minY) minY = y; if (y > maxY) maxY = y;
+  }
+  const A = pixels.length, cx = sx / A, cy = sy / A;
+
+  let mu20 = 0, mu02 = 0, mu11 = 0;
+  const boundary = [];
+  for (const p of pixels) {
+    const x = p % w, y = (p / w) | 0;
+    const dx = x - cx, dy = y - cy;
+    mu20 += dx * dx; mu02 += dy * dy; mu11 += dx * dy;
+    if (!set.has(p - 1) || !set.has(p + 1) || !set.has(p - w) || !set.has(p + w) ||
+        x === 0 || y === 0 || x === w - 1 || y === h - 1) boundary.push([x, y]);
+  }
+  mu20 /= A; mu02 /= A; mu11 /= A;
+  const common = Math.sqrt(((mu20 - mu02) / 2) ** 2 + mu11 ** 2);
+  const l1 = (mu20 + mu02) / 2 + common, l2 = Math.max(1e-6, (mu20 + mu02) / 2 - common);
+  const elongation = Math.sqrt(l1 / l2);
+  const orientation = 0.5 * Math.atan2(2 * mu11, mu20 - mu02);
+  const length = 4 * Math.sqrt(l1); // ~ major axis length
+
+  const perimeter = boundary.length * 1.12; // pixel-count correction for diagonals
+  const circularity = Math.min(1, (4 * Math.PI * A) / (perimeter * perimeter));
+
+  // hull from pixel corners so single-pixel-wide shapes still get a real area
+  const corners = boundary.flatMap(([x, y]) => [[x, y], [x + 1, y], [x, y + 1], [x + 1, y + 1]]);
+  const hull = convexHull(corners);
+  const solidity = Math.min(1, A / Math.max(1, polyArea(hull)));
+
+  // deepest concavity: how far the outline dips inside its convex hull (notches, bites, gaps)
+  let defect = 0;
+  for (let i = 0; i < boundary.length; i += Math.max(1, Math.floor(boundary.length / 400))) {
+    const [px, py] = boundary[i];
+    let best = Infinity;
+    for (let k = 0; k < hull.length; k++) {
+      const [ax, ay] = hull[k], [bx, by] = hull[(k + 1) % hull.length];
+      const L = Math.hypot(bx - ax, by - ay) || 1;
+      const d = Math.abs((bx - ax) * (ay - py) - (ax - px) * (by - ay)) / L;
+      if (d < best) best = d;
+    }
+    if (best > defect) defect = best;
+  }
+  defect /= Math.sqrt(A);
+
+  // holes: background inside the bbox not reachable from its border
+  const bw = maxX - minX + 3, bh = maxY - minY + 3;
+  const seen = new Uint8Array(bw * bh);
+  const isFg = (bx, by) => set.has((by + minY - 1) * w + (bx + minX - 1));
+  const q = [0]; seen[0] = 1;
+  while (q.length) {
+    const i = q.pop(), x = i % bw, y = (i / bw) | 0;
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const xx = x + dx, yy = y + dy;
+      if (xx < 0 || yy < 0 || xx >= bw || yy >= bh) continue;
+      const j = yy * bw + xx;
+      if (!seen[j] && !isFg(xx, yy)) { seen[j] = 1; q.push(j); }
+    }
+  }
+  let holeArea = 0, holes = 0;
+  for (let y = 0; y < bh; y++) for (let x = 0; x < bw; x++) {
+    const j = y * bw + x;
+    if (seen[j] || isFg(x, y)) continue;
+    // flood this hole
+    let size = 0; const hq = [j]; seen[j] = 1;
+    while (hq.length) {
+      const k = hq.pop(); size++;
+      const kx = k % bw, ky = (k / bw) | 0;
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const xx = kx + dx, yy = ky + dy;
+        if (xx < 0 || yy < 0 || xx >= bw || yy >= bh) continue;
+        const m = yy * bw + xx;
+        if (!seen[m] && !isFg(xx, yy)) { seen[m] = 1; hq.push(m); }
+      }
+    }
+    if (size >= Math.max(4, A * 0.02)) { holes++; holeArea += size; }
+  }
+
+  // radial signature: farthest boundary point per angle bin → "arms" / points
+  const BINS = 72;
+  const sig = new Float32Array(BINS);
+  for (const [x, y] of boundary) {
+    const a = Math.atan2(y - cy, x - cx);
+    const b = Math.floor(((a + Math.PI) / (2 * Math.PI)) * BINS) % BINS;
+    sig[b] = Math.max(sig[b], Math.hypot(x - cx, y - cy));
+  }
+  for (let i = 0; i < BINS; i++) if (!sig[i]) sig[i] = (sig[(i + BINS - 1) % BINS] + sig[(i + 1) % BINS]) / 2;
+  const smooth = sig.map((_, i) => (sig[(i + BINS - 1) % BINS] + 2 * sig[i] + sig[(i + 1) % BINS]) / 4);
+  const meanR = smooth.reduce((s, v) => s + v, 0) / BINS;
+  const arms = countPeaks(smooth, meanR * 0.22);
+
+  return {
+    area: A, cx, cy, bbox: [minX, minY, maxX, maxY], elongation, orientation, length,
+    circularity, solidity, holes, holeFrac: holeArea / (A + holeArea), arms, hull, defect,
+    aspect: (maxX - minX + 1) / (maxY - minY + 1),
+  };
+}
+
+/* ---------- classification ---------- */
+
+// Each rule proposes a symbol key with a confidence 0..1. These are heuristics about
+// silhouette geometry, not recognition of meaning: the person can relabel anything.
+function classify(f, cupArea) {
+  const rel = f.area / cupArea;
+  const c = [];
+  const add = (key, conf) => c.push({ key, conf: Math.max(0, Math.min(1, conf)) });
+
+  if (rel < 0.0025) { add('dot', 0.9); return c; }
+
+  if (f.holes >= 2) add('face', 0.55);
+  if (f.holes >= 1 && f.holeFrac > 0.12) {
+    if (f.elongation < 1.5) add('ring', 0.6 + f.holeFrac);
+    else if (f.elongation < 3.2) add('eye', 0.55 + f.holeFrac / 2);
+  }
+
+  // thin strokes: area small relative to the square of their length
+  const thin = f.elongation > 3.2 && f.area / (f.length * f.length) < 0.12;
+  if (thin && f.holes === 0) {
+    if (f.solidity > 0.8) add(rel > 0.03 ? 'sword' : 'line', 0.55 + Math.min(0.35, (f.elongation - 3.2) / 10));
+    else if (f.solidity > 0.45 && f.defect < 0.4) add('bird', 0.5 + (0.8 - f.solidity) / 2);
+    else if (f.elongation > 5 && rel > 0.012) add('snake', 0.6);
+    else add('wavy', 0.6);
+  }
+
+  if (f.holes === 0 && !thin) {
+    if (f.arms >= 5 && f.solidity < 0.7) add(f.elongation > 1.7 ? 'tree' : 'star', 0.5 + (0.7 - f.solidity));
+    if (f.arms === 4 && f.solidity < 0.62) add('cross', 0.55 + (0.62 - f.solidity));
+    if (f.arms === 3 && f.solidity > 0.86) {
+      const wide = f.aspect > 1.4;
+      add(wide && rel > 0.02 ? 'mountain' : 'triangle', 0.5 + (f.solidity - 0.86) * 3);
+    }
+    // heart: compact and solid, with one clear notch (the cleft between the lobes)
+    if (f.elongation < 1.5 && f.solidity > 0.8 && f.solidity < 0.975 && f.defect > 0.08 && f.defect < 0.45 && f.arms <= 3)
+      add('heart', 0.55 + Math.min(0.3, f.defect));
+    if (f.solidity > 0.38 && f.solidity < 0.72 && f.arms <= 2 && f.elongation > 1.2 && f.elongation < 3.6 && f.circularity < 0.55)
+      add('crescent', 0.45 + (0.72 - f.solidity) / 2);
+    if (f.elongation > 1.7 && f.elongation <= 3.5 && f.solidity < 0.78 && f.arms >= 2 && f.arms <= 4 && Math.abs(Math.cos(f.orientation)) > 0.7)
+      add('bird', 0.45 + (0.78 - f.solidity) / 2);
+    // fish: a plump oval with a tail notch
+    if (f.elongation > 1.7 && f.elongation <= 5 && f.solidity >= 0.75 && f.defect > 0.1 && f.defect < 0.45) add('fish', 0.5 + (f.solidity - 0.75));
+    if (f.circularity > 0.72 && f.solidity > 0.9 && f.elongation < 1.35 && f.defect < 0.08) add(rel > 0.04 ? 'cloud' : 'circle', 0.5 + (f.circularity - 0.72));
+    if (rel > 0.06 && f.solidity > 0.6) add('cloud', 0.5 + Math.min(0.3, rel));
+  }
+
+  if (!c.length) add('figure', 0.3);
+  return c.sort((a, b) => b.conf - a.conf);
+}
+
+/* ---------- position in the cup ---------- */
+
+// handleAngle: radians, direction from cup centre toward the handle (image coordinates).
+function locate(f, cup, handleAngle) {
+  const dx = f.cx - cup.cx, dy = f.cy - cup.cy;
+  const radial = Math.min(1, Math.hypot(dx, dy) / cup.r);
+  const ring = radial < 1 / 3 ? 'bottom' : radial < 2 / 3 ? 'middle' : 'rim';
+  let rel = Math.atan2(dy, dx) - handleAngle;
+  rel = Math.atan2(Math.sin(rel), Math.cos(rel)); // wrap to −π..π
+  const deg = (rel * 180) / Math.PI;
+  // looking down into the cup with the handle toward you, clockwise (positive) is your left
+  const side = Math.abs(deg) <= 55 ? 'handle' : Math.abs(deg) >= 125 ? 'opposite' : deg > 0 ? 'left' : 'right';
+  // symbols at the very bottom have no meaningful side
+  return { ring, side: radial < 0.15 ? 'centre' : side, radial, angleDeg: deg };
+}
+
+/* ---------- full pipeline ---------- */
+
+function analyze(img, cup, handleAngle, sensitivity = 0) {
+  const { width: w, height: h } = img;
+  const { mask, coverage } = segmentGrounds(img, cup, sensitivity);
+  const cupArea = Math.PI * (cup.r * 0.96) ** 2;
+  const { comps } = components(mask, w, h, Math.max(4, Math.round(cupArea * 0.00005)));
+
+  const shapes = [];
+  const dots = [];
+  for (const px of comps) {
+    if (px.length > cupArea * 0.6) continue; // a flooded cup isn't a symbol
+    const f = measure(px, mask, w, h);
+    const guesses = classify(f, cupArea);
+    const loc = locate(f, cup, handleAngle);
+    if (guesses[0].key === 'dot') { dots.push({ f, loc }); continue; }
+    shapes.push({ f, guesses, key: guesses[0].key, conf: guesses[0].conf, loc, pixels: px });
+  }
+
+  // Many small specks read together as "dots" (money); group them by ring.
+  const dotGroups = {};
+  for (const d of dots) (dotGroups[d.loc.ring] ||= []).push(d);
+  for (const [ring, group] of Object.entries(dotGroups)) {
+    if (group.length < 6) continue;
+    const cx = group.reduce((s, d) => s + d.f.cx, 0) / group.length;
+    const cy = group.reduce((s, d) => s + d.f.cy, 0) / group.length;
+    const area = group.reduce((s, d) => s + d.f.area, 0);
+    const loc = locate({ cx, cy }, cup, handleAngle);
+    loc.ring = ring;
+    shapes.push({
+      f: { cx, cy, area, bbox: null }, guesses: [{ key: 'dots', conf: Math.min(0.9, 0.4 + group.length / 40) }],
+      key: 'dots', conf: Math.min(0.9, 0.4 + group.length / 40), loc, count: group.length,
+      members: group.map((d) => d.f.bbox),
+    });
+  }
+
+  // keep the most prominent shapes so the reading stays focused
+  shapes.sort((a, b) => b.f.area * (0.5 + b.conf) - a.f.area * (0.5 + a.conf));
+  const kept = shapes.slice(0, 12);
+  kept.forEach((s, i) => (s.id = i + 1));
+  return { shapes: kept, coverage, mask, totalBlobs: comps.length };
+}
+
+// ---- js/reading.js ----
+// reading.js — composes a reading from what the vision step found.
+
+const SIDE_PHRASE = { handle: 'on your side of the cup', opposite: 'on the far side', left: 'on the fading side', right: 'on the coming side', centre: 'in the very centre' };
+const RING_WORDS = { rim: 'near the rim', middle: 'on the walls, halfway down', bottom: 'at the bottom' };
+
+// A few symbols change their message depending on where they sit.
+const SPECIAL = {
+  snake: { rim: 'So close to the rim, the danger is immediate.', bottom: 'Deep in the cup, it is an old problem that lingers.' },
+  scorpion: { rim: 'Near the rim, the threat is present now.', bottom: 'Low in the cup, old grudges are resurfacing.' },
+  heart: { handle: 'Beside the handle, the love is in your own life.', rim: 'Near the rim, a new romance may be approaching.' },
+  ring: { handle: 'By the handle, this is your own romance.', opposite: 'Opposite the handle, someone close to you may be the one committing.' },
+  key: { rim: 'Near the rim, the opportunity is about to arrive.', bottom: 'At the bottom, an old question finally gets its answer.' },
+  dots: { handle: 'Near the handle, the money comes to you personally.' },
+  dog: { handle: 'By the handle, it is someone already in your inner circle.', opposite: 'Far from the handle, you will meet someone reliable.' },
+  bird: { rim: 'Near the rim, the news is almost at your door.' },
+  eagle: { rim: 'Near the rim, triumph is imminent.', bottom: 'At the bottom, a long-held ambition finally takes flight.' },
+  turtle: { handle: 'Near the handle, it promises security at home.' },
+  letter: { handle: 'By the handle, this person is family or a close friend.', opposite: 'Opposite the handle, they come through work or your wider circle.' },
+};
+
+function place(shape, tradition) {
+  const t = TRADITIONS[tradition].rings[shape.loc.ring];
+  const side = SIDES[shape.loc.side];
+  const where = shape.loc.side === 'centre'
+    ? `${RING_WORDS[shape.loc.ring]}, right in the centre`
+    : `${RING_WORDS[shape.loc.ring]}, ${shape.loc.side === 'handle' ? 'beside the handle' : shape.loc.side === 'opposite' ? 'opposite the handle' : `on the ${shape.loc.side}`}`;
+  return { where, sentence: `It sits ${where}, which speaks to ${t.time} and to ${side.area}.`, time: t.short, side: SIDE_PHRASE[shape.loc.side] };
+}
+
+function sizeWord(shape, cupArea) {
+  const rel = shape.f.area / cupArea;
+  if (shape.key === 'dots') return shape.count > 15 ? 'A generous scatter of' : 'A small cluster of';
+  return rel > 0.05 ? 'A large, bold' : rel > 0.012 ? 'A clear' : 'A small, faint';
+}
+
+function composeReading(images, tradition) {
+  const cups = images.filter((i) => i.kind === 'cup' && i.result);
+  const saucers = images.filter((i) => i.kind === 'saucer' && i.result);
+  const out = { overview: '', items: [], saucer: '', closing: '' };
+  if (!cups.length && !saucers.length) return out;
+
+  // overview from how much of the cup the grounds cover, and the balance of symbols
+  const cov = cups.length ? cups.reduce((s, c) => s + c.result.coverage, 0) / cups.length : 0;
+  const kept = cups.flatMap((c, ci) => c.result.shapes
+    .filter((s) => s.key !== 'ignore' && SYMBOLS[s.key])
+    .map((s) => ({ ...s, imageIndex: images.indexOf(c), cupArea: Math.PI * (c.cup.r * 0.96) ** 2, multi: cups.length > 1, cupNo: ci + 1 })));
+  const tone = kept.reduce((s, x) => s + SYMBOLS[x.key].tone, 0);
+
+  if (cups.length) {
+    const mood = cov < 0.08
+      ? 'Your cup is light and clear. That is a good sign: relief and happiness ahead, with little weighing on you.'
+      : cov < 0.25
+        ? 'Your cup is balanced, with clean porcelain showing between the grounds. Life has its weight right now, but there is room to breathe.'
+        : 'Your cup is dark and heavy. This is a time of strong feelings or real challenges, so look for the clear patches: that is where the light gets in.';
+    const lean = !kept.length
+      ? 'No clear shapes stand out yet. Try a sharper photo from directly above, or raise the sensitivity.'
+      : tone > 1 ? 'Most of what appears is favourable.'
+        : tone < -1 ? 'Several cautions appear, so read them as advice, not as fate.'
+          : 'The signs are mixed, which usually means the outcome is in your hands.';
+    out.overview = `${mood} ${lean}`;
+  }
+
+  // read from the most immediate zone inward, so the story flows
+  const order = tradition === 'greek' ? ['bottom', 'middle', 'rim'] : ['rim', 'middle', 'bottom'];
+  kept.sort((a, b) => order.indexOf(a.loc.ring) - order.indexOf(b.loc.ring) || b.f.area - a.f.area);
+
+  for (const s of kept) {
+    const sym = SYMBOLS[s.key];
+    const p = place(s, tradition);
+    const special = SPECIAL[s.key]?.[s.loc.side] || SPECIAL[s.key]?.[s.loc.ring] || '';
+    const lead = `${sizeWord(s, s.cupArea)} ${sym.name.toLowerCase()}.`;
+    out.items.push({
+      id: s.id, imageIndex: s.imageIndex, key: s.key, conf: s.conf, cupNo: s.multi ? s.cupNo : null,
+      title: sym.name, greek: sym.el, time: p.time, side: p.side,
+      text: [lead, sym.meaning, p.sentence, special].filter(Boolean).join(' '),
+    });
+  }
+
+  if (saucers.length) {
+    const sc = saucers.reduce((s, c) => s + c.result.coverage, 0) / saucers.length;
+    const lump = saucers.some((c) => c.result.shapes.some((s) => s.f.area / (Math.PI * c.cup.r ** 2) > 0.08));
+    out.saucer = (sc < 0.06
+      ? 'The saucer is mostly clean: harmony at home.'
+      : sc < 0.2 ? 'The saucer carries some grounds: ordinary household ups and downs, nothing that won\'t pass.'
+        : 'The saucer is heavy with grounds, pointing to stress or unspoken tension at home.')
+      + (lump ? ' A thick lump slid down onto it, which is read as a burden lifting from your shoulders.' : '');
+  }
+
+  out.closing = 'Keep what makes you smile, my child, and let the rest go with the grounds.';
+  return out;
+}
+
+// Plain-text summary used to brief Claude for the optional narrative reading.
+function summarize(reading, tradition) {
+  const lines = reading.items.map((i) => `- ${i.title} (${i.time}, ${i.side})${i.cupNo ? ` in cup photo ${i.cupNo}` : ''}`);
+  return `Tradition: ${TRADITIONS[tradition].label}\nOverall: ${reading.overview}\nSymbols found:\n${lines.join('\n') || '- none clear'}\n${reading.saucer ? `Saucer: ${reading.saucer}` : ''}`;
+}
+
+// ---- js/app.js ----
+
+
+
+// Model used for the optional story. Change it here if Anthropic retires this name.
+const MODEL = 'claude-sonnet-5-5';
+const MAX_SIDE = 720;      // analysis resolution: enough detail, fast on phones
+const KEY_STORE = 'kafemanteia-api-key';
+
+const $ = (id) => document.getElementById(id);
+const els = {
+  file: $('file'), stage: $('stage'), empty: $('empty'), canvas: $('canvas'), busy: $('busy'), stageHelp: $('stageHelp'),
+  thumbs: $('thumbs'), tools: $('tools'), adjust: $('adjust'),
+  handle: $('handle'), sens: $('sens'), showMask: $('showMask'), resetCup: $('resetCup'), tradNote: $('tradNote'),
+  reading: $('reading'), overview: $('overview'), symbols: $('symbolsList'), saucer: $('saucer'), closing: $('closing'),
+  apiKey: $('apiKey'), rememberKey: $('rememberKey'), aiGo: $('aiGo'), aiOut: $('aiOut'),
+  dict: $('dict'), dictSearch: $('dictSearch'),
+};
+const ctx = els.canvas.getContext('2d');
+
+const state = { images: [], current: -1, tradition: 'greek', showMask: false, active: null, drag: null, editing: false };
+const cur = () => state.images[state.current];
+
+/* ---------------- loading photos ---------------- */
+
+// An <img> element is the most reliable decoder on iPhone: Safari applies the photo's
+// rotation and opens HEIC. createImageBitmap is the fallback for other browsers.
+async function decode(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => {
+      const el = new Image();
+      el.onload = () => res(el);
+      el.onerror = () => rej(new Error('decode'));
+      el.src = url;
+    });
+    if (img.decode) await img.decode().catch(() => {});
+    return img;
+  } catch {
+    try { return await createImageBitmap(file, { imageOrientation: 'from-image' }); }
+    catch { throw new Error(`Yiayia couldn't open ${file.name}. Try a JPEG or PNG photo.`); }
+  } finally {
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+}
+
+async function addFiles(files) {
+  const list = [...files].filter((f) => f.type.startsWith('image/') || /\.(heic|heif)$/i.test(f.name));
+  if (!list.length) return;
+  for (const file of list) {
+    try {
+      const bmp = await decode(file);
+      const bw = bmp.naturalWidth || bmp.width, bh = bmp.naturalHeight || bmp.height;
+      const s = Math.min(1, MAX_SIDE / Math.max(bw, bh));
+      const src = document.createElement('canvas');
+      src.width = Math.round(bw * s); src.height = Math.round(bh * s);
+      const sctx = src.getContext('2d', { willReadFrequently: true });
+      sctx.drawImage(bmp, 0, 0, src.width, src.height);
+      const imgData = sctx.getImageData(0, 0, src.width, src.height);
+      const t = document.createElement('canvas');
+      const ts = 140 / Math.max(src.width, src.height);
+      t.width = src.width * ts; t.height = src.height * ts;
+      t.getContext('2d').drawImage(src, 0, 0, t.width, t.height);
+      const isFirst = state.images.length === 0;
+      state.images.push({
+        name: file.name, kind: isFirst || !/saucer|πιατ/i.test(file.name) ? 'cup' : 'saucer',
+        thumb: t.toDataURL('image/jpeg', 0.7), src, imgData,
+        cup: detectCup(imgData), handleAngle: Math.PI / 2, sens: 0, result: null,
+      });
+    } catch (err) {
+      showStageMessage(err.message);
+    }
+  }
+  if (state.current === -1 && state.images.length) state.current = 0;
+  else state.current = state.images.length - 1;
+  await runAll();
+  select(state.current);
+  // if the cup's edge wasn't found automatically, open the adjust mode straight away
+  setEditing(!!cur() && !cur().cup.auto);
+}
+
+function showStageMessage(msg) {
+  els.busy.hidden = false; els.busy.textContent = msg;
+  setTimeout(() => { els.busy.hidden = true; els.busy.textContent = 'Yiayia is looking…'; }, 5000);
+}
+
+/* ---------------- analysis ---------------- */
+
+const frame = () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0)));
+
+async function run(im) {
+  els.busy.hidden = false;
+  await frame();
+  im.result = analyze(im.imgData, im.cup, im.handleAngle, im.sens);
+  els.busy.hidden = true;
+}
+async function runAll() {
+  for (const im of state.images) if (!im.result) await run(im);
+  renderReading(true);
+}
+
+let debounce;
+function rerunCurrent() {
+  clearTimeout(debounce);
+  debounce = setTimeout(async () => {
+    const im = cur(); if (!im) return;
+    await run(im);
+    draw(); renderReading();
+  }, 120);
+}
+
+// Moving the handle doesn't change the shapes, only where they sit, so keep any relabelling.
+function relocate(im) {
+  if (!im.result) return;
+  for (const s of im.result.shapes) {
+    const ring = s.key === 'dots' ? s.loc.ring : null;
+    s.loc = locate(s.f, im.cup, im.handleAngle);
+    if (ring) s.loc.ring = ring;
+  }
+}
+
+/* ---------------- drawing ---------------- */
+
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+function select(i) {
+  state.current = i;
+  const im = cur();
+  const has = !!im;
+  els.empty.hidden = has; els.canvas.hidden = !has; els.tools.hidden = !has;
+  if (!has) { setEditing(false); renderThumbs(); renderReading(); return; }
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  els.canvas.width = im.src.width * dpr; els.canvas.height = im.src.height * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  els.handle.value = Math.round(((im.handleAngle * 180) / Math.PI + 360) % 360);
+  els.sens.value = im.sens;
+  document.querySelector(`input[name="kind"][value="${im.kind}"]`).checked = true;
+  renderThumbs(); draw();
+}
+
+function draw() {
+  const im = cur(); if (!im) return;
+  const { width: w, height: h } = im.src;
+  const { cx, cy, r } = im.cup;
+  const blue = css('--blue'), foam = css('--gold');
+  // overlay sizes are in on-screen pixels, so badges stay legible on phones
+  const scale = w / Math.max(1, els.canvas.getBoundingClientRect().width || w);
+
+  ctx.clearRect(0, 0, w, h);
+  ctx.drawImage(im.src, 0, 0);
+
+  if (state.showMask && im.result) {
+    const m = new ImageData(w, h);
+    for (let p = 0; p < im.result.mask.length; p++) {
+      if (im.result.mask[p]) { m.data[p * 4] = 230; m.data[p * 4 + 1] = 60; m.data[p * 4 + 2] = 40; m.data[p * 4 + 3] = 170; }
+    }
+    const t = document.createElement('canvas'); t.width = w; t.height = h;
+    t.getContext('2d').putImageData(m, 0, 0);
+    ctx.drawImage(t, 0, 0);
+  }
+
+  // dim everything outside the cup
+  ctx.save();
+  ctx.fillStyle = 'rgba(10, 8, 6, 0.45)';
+  ctx.beginPath(); ctx.rect(0, 0, w, h); ctx.arc(cx, cy, r, 0, Math.PI * 2, true); ctx.fill('evenodd');
+  ctx.restore();
+
+  // cup outline and the three time zones
+  ctx.lineWidth = 3 * scale; ctx.strokeStyle = blue;
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+  ctx.setLineDash([6 * scale, 6 * scale]); ctx.lineWidth = 1.5 * scale; ctx.strokeStyle = 'rgba(255,255,255,0.75)';
+  for (const f of [1 / 3, 2 / 3]) { ctx.beginPath(); ctx.arc(cx, cy, r * f, 0, Math.PI * 2); ctx.stroke(); }
+  ctx.setLineDash([]);
+
+  // shapes
+  if (im.result) {
+    for (const s of im.result.shapes) {
+      if (s.key === 'ignore') continue;
+      const on = state.active && state.active.img === state.current && state.active.id === s.id;
+      ctx.strokeStyle = on ? blue : foam; ctx.lineWidth = (on ? 3.5 : 2) * scale;
+      if (s.f.hull) {
+        ctx.beginPath();
+        s.f.hull.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+        ctx.closePath(); ctx.stroke();
+      } else if (s.members) {
+        for (const [x0, y0, x1, y1] of s.members) {
+          ctx.beginPath(); ctx.arc((x0 + x1) / 2, (y0 + y1) / 2, Math.max(4 * scale, (x1 - x0) / 2 + 3), 0, Math.PI * 2); ctx.stroke();
+        }
+      }
+      // number badge
+      const bx = s.f.cx, by = s.f.cy, br = 11 * scale;
+      ctx.fillStyle = on ? blue : 'rgba(255,255,255,0.92)';
+      ctx.beginPath(); ctx.arc(bx, by, br, 0, Math.PI * 2); ctx.fill();
+      ctx.lineWidth = 2 * scale; ctx.strokeStyle = blue; ctx.stroke();
+      ctx.fillStyle = on ? '#fff' : '#1c3f8a';
+      ctx.font = `600 ${12 * scale}px Commissioner, system-ui, sans-serif`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(String(s.id), bx, by + 0.5);
+    }
+  }
+
+  // handle marker
+  const hx = cx + Math.cos(im.handleAngle) * r, hy = cy + Math.sin(im.handleAngle) * r;
+  ctx.fillStyle = foam; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3 * scale;
+  ctx.beginPath(); ctx.arc(hx, hy, 12 * scale, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+}
+
+/* ---------------- calibrating by drag ---------------- */
+
+function toImg(e) {
+  const rect = els.canvas.getBoundingClientRect();
+  const im = cur();
+  return { x: ((e.clientX - rect.left) / rect.width) * im.src.width, y: ((e.clientY - rect.top) / rect.height) * im.src.height, k: im.src.width / rect.width };
+}
+
+els.canvas.addEventListener('pointerdown', (e) => {
+  const im = cur(); if (!im) return;
+  const p = toImg(e), { cx, cy, r } = im.cup;
+  const hx = cx + Math.cos(im.handleAngle) * r, hy = cy + Math.sin(im.handleAngle) * r;
+  const tol = 22 * p.k;
+  const dEdge = Math.abs(Math.hypot(p.x - cx, p.y - cy) - r);
+  if (!state.editing) {
+    // outside adjust mode the photo scrolls like the rest of the page; a tap on a number selects it
+    const hit = im.result?.shapes.find((s) => Math.hypot(s.f.cx - p.x, s.f.cy - p.y) < 22 * p.k);
+    if (hit) setActive(state.current, hit.id, true);
+    return;
+  }
+  let mode = null;
+  if (Math.hypot(p.x - hx, p.y - hy) < tol * 1.3) mode = 'handle';
+  else if (dEdge < tol) mode = 'resize';
+  else if (Math.hypot(p.x - cx, p.y - cy) < r) mode = 'move';
+  if (!mode) return;
+  e.preventDefault();
+  state.drag = { mode, start: p, cup: { ...im.cup }, moved: false };
+  els.canvas.setPointerCapture(e.pointerId);
+  els.canvas.classList.add('grabbing');
+});
+els.canvas.addEventListener('pointermove', (e) => {
+  const d = state.drag, im = cur(); if (!d || !im) return;
+  const p = toImg(e); d.moved = true;
+  if (d.mode === 'move') { im.cup.cx = d.cup.cx + p.x - d.start.x; im.cup.cy = d.cup.cy + p.y - d.start.y; }
+  if (d.mode === 'resize') im.cup.r = Math.max(30, Math.hypot(p.x - im.cup.cx, p.y - im.cup.cy));
+  if (d.mode === 'handle') {
+    im.handleAngle = Math.atan2(p.y - im.cup.cy, p.x - im.cup.cx);
+    els.handle.value = Math.round(((im.handleAngle * 180) / Math.PI + 360) % 360);
+  }
+  draw();
+});
+const endDrag = () => {
+  const d = state.drag; state.drag = null; els.canvas.classList.remove('grabbing');
+  if (!d || !d.moved) return;
+  if (d.mode === 'handle') { relocate(cur()); draw(); renderReading(); } else rerunCurrent();
+};
+els.canvas.addEventListener('pointerup', endDrag);
+
+function setEditing(on) {
+  state.editing = on;
+  els.canvas.classList.toggle('editing', on);
+  els.adjust.setAttribute('aria-pressed', String(on));
+  els.adjust.textContent = on ? 'Done' : 'Adjust the circle';
+  els.stageHelp.hidden = !on;
+}
+els.adjust.addEventListener('click', () => {
+  setEditing(!state.editing);
+  if (state.editing) els.stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+els.canvas.addEventListener('pointercancel', endDrag);
+
+/* ---------------- controls ---------------- */
+
+els.file.addEventListener('change', () => { addFiles(els.file.files); els.file.value = ''; });
+for (const t of ['dragenter', 'dragover']) els.stage.addEventListener(t, (e) => { e.preventDefault(); els.stage.classList.add('drag'); });
+for (const t of ['dragleave', 'drop']) els.stage.addEventListener(t, (e) => { e.preventDefault(); els.stage.classList.remove('drag'); });
+els.stage.addEventListener('drop', (e) => addFiles(e.dataTransfer.files));
+
+els.handle.addEventListener('input', () => {
+  const im = cur(); if (!im) return;
+  im.handleAngle = (Number(els.handle.value) * Math.PI) / 180;
+  relocate(im); draw();
+});
+els.handle.addEventListener('change', () => renderReading());
+els.sens.addEventListener('input', () => { const im = cur(); if (!im) return; im.sens = Number(els.sens.value); rerunCurrent(); });
+els.showMask.addEventListener('change', () => { state.showMask = els.showMask.checked; draw(); });
+els.resetCup.addEventListener('click', () => { const im = cur(); if (!im) return; im.cup = detectCup(im.imgData); rerunCurrent(); });
+
+for (const r of document.querySelectorAll('input[name="kind"]')) {
+  r.addEventListener('change', () => { const im = cur(); if (!im) return; im.kind = r.value; renderThumbs(); renderReading(); });
+}
+for (const r of document.querySelectorAll('input[name="trad"]')) {
+  r.addEventListener('change', () => { state.tradition = r.value; renderTradition(); renderReading(); });
+}
+
+function renderTradition() {
+  const t = TRADITIONS[state.tradition].rings;
+  els.tradNote.textContent = state.tradition === 'greek'
+    ? 'The bottom of the cup is the past, the walls are the present, and the rim is the future.'
+    : 'The rim is the next week or two, the walls are the coming months, and the bottom is the distant future.';
+  $('mapRim').textContent = t.rim.short; $('mapMid').textContent = t.middle.short; $('mapBot').textContent = t.bottom.short;
+}
+
+function renderThumbs() {
+  els.thumbs.replaceChildren(...state.images.map((im, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'thumb-wrap';
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'thumb'; b.setAttribute('aria-current', String(i === state.current));
+    b.setAttribute('aria-label', `Photo ${i + 1}, ${im.kind}`);
+    b.innerHTML = `<img alt="" src="${im.thumb}"><span class="tkind">${im.kind === 'cup' ? 'Cup' : 'Saucer'}</span>`;
+    b.addEventListener('click', () => select(i));
+    const del = document.createElement('button');
+    del.type = 'button'; del.className = 'tdel'; del.setAttribute('aria-label', `Remove photo ${i + 1}`); del.textContent = '×';
+    del.addEventListener('click', () => {
+      state.images.splice(i, 1); state.active = null;
+      select(state.images.length ? Math.min(i, state.images.length - 1) : -1);
+      renderReading();
+    });
+    wrap.append(b, del);
+    return wrap;
+  }));
+}
+
+/* ---------------- reading ---------------- */
+
+const optionsHTML = (() => {
+  const fam = {};
+  for (const [k, v] of Object.entries(SYMBOLS)) if (k !== 'dot') (fam[v.family] ||= []).push([k, v]);
+  return Object.entries(fam).map(([f, list]) =>
+    `<optgroup label="${f}">${list.sort((a, b) => a[1].name.localeCompare(b[1].name)).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('')}</optgroup>`,
+  ).join('') + '<option value="ignore">Not a symbol, leave it out</option>';
+})();
+
+const sureness = (c) => (c >= 0.75 ? 'fairly sure' : c >= 0.55 ? 'a reasonable guess' : 'a rough guess');
+
+function setActive(img, id, scrollToText) {
+  state.active = { img, id };
+  if (img !== state.current) select(img); else draw();
+  for (const li of els.symbols.children) li.classList.toggle('active', li.dataset.img == img && li.dataset.id == id);
+  if (scrollToText) els.symbols.querySelector('.active')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function renderReading(reveal = false) {
+  const reading = composeReading(state.images, state.tradition);
+  const any = state.images.some((i) => i.result);
+  els.reading.hidden = !any;
+  if (!any) return;
+  if (reveal) { els.reading.classList.remove('reveal'); void els.reading.offsetWidth; els.reading.classList.add('reveal'); }
+  els.overview.textContent = reading.overview;
+  els.overview.hidden = !reading.overview;
+  els.saucer.hidden = !reading.saucer; els.saucer.textContent = reading.saucer;
+  els.closing.textContent = reading.closing;
+
+  els.symbols.replaceChildren(...reading.items.map((it) => {
+    const li = document.createElement('li');
+    li.className = 'symbol'; li.dataset.img = it.imageIndex; li.dataset.id = it.id;
+    if (state.active && state.active.img === it.imageIndex && state.active.id === it.id) li.classList.add('active');
+    const shape = state.images[it.imageIndex].result.shapes.find((s) => s.id === it.id);
+    const guess = SYMBOLS[shape.guesses[0].key];
+    li.innerHTML = `
+      <button type="button" class="badge" aria-label="Show shape ${it.id} on the photo">${it.id}</button>
+      <div>
+        <div class="sym-head"><h3></h3><span class="el" lang="el"></span></div>
+        <p class="where"></p>
+        <p></p>
+        <label class="relabel">Yiayia's eyes saw ${guess.name.toLowerCase()} (${sureness(shape.guesses[0].conf)}). Do you see something else?
+          <select>${optionsHTML}</select></label>
+      </div>`;
+    li.querySelector('h3').textContent = it.title;
+    li.querySelector('.el').textContent = it.greek;
+    li.querySelector('.where').textContent = `${it.time}, ${it.side}${it.cupNo ? `, photo ${it.cupNo}` : ''}`;
+    li.querySelector('p:not(.where)').textContent = it.text;
+    const sel = li.querySelector('select');
+    sel.value = shape.key;
+    sel.addEventListener('change', () => {
+      shape.key = sel.value;
+      if (state.current === it.imageIndex) draw();
+      renderReading();
+    });
+    li.querySelector('.badge').addEventListener('click', () => {
+      setActive(it.imageIndex, it.id, false);
+      els.stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    return li;
+  }));
+}
+
+/* ---------------- optional: Claude tells the story ---------------- */
+
+try { const k = localStorage.getItem(KEY_STORE); if (k) { els.apiKey.value = k; els.rememberKey.checked = true; } } catch {}
+
+els.aiGo.addEventListener('click', async () => {
+  const key = els.apiKey.value.trim();
+  const say = (html) => { els.aiOut.innerHTML = html; };
+  if (!key) { say('<p class="err">Paste your Anthropic API key first. You can create one at console.anthropic.com.</p>'); return; }
+  try { els.rememberKey.checked ? localStorage.setItem(KEY_STORE, key) : localStorage.removeItem(KEY_STORE); } catch {}
+
+  const reading = composeReading(state.images, state.tradition);
+  const photos = state.images.filter((i) => i.result).slice(0, 4);
+  const content = [];
+  photos.forEach((im, i) => {
+    content.push({ type: 'text', text: `Photo ${i + 1}: the ${im.kind}.` });
+    content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: im.src.toDataURL('image/jpeg', 0.85).split(',')[1] } });
+  });
+  content.push({ type: 'text', text: `Here is what my shape-finding software detected:\n${summarize(reading, state.tradition)}\n\nPlease read my cup.` });
+
+  els.aiGo.disabled = true; say('<p><i>Yiayia is looking into your cup…</i></p>');
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 1000,
+        system: 'You are a warm, witty Greek yiayia reading a coffee cup (kafemanteia) for entertainment. ' +
+          'Look at the photos yourself as well as the detected list: confirm, correct, or add shapes you genuinely see. ' +
+          'Use traditional meanings and the cup\'s geography (handle side = the drinker and home; far side = work, money, travel; ' +
+          `timing per the ${TRADITIONS[state.tradition].label} tradition given). ` +
+          'Write 180 to 260 words of flowing prose in 3 or 4 short paragraphs, no headings or lists, and sprinkle in one or two Greek words. ' +
+          'Keep it kind and playful. Never predict death, illness, or anything frightening, and don\'t give medical, legal, or financial advice. ' +
+          'If the photos are not a coffee cup, say so gently.',
+        messages: [{ role: 'user', content }],
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error?.message || `Request failed (${res.status}).`);
+    const text = data.content.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
+    els.aiOut.replaceChildren(...text.split(/\n\s*\n/).map((para) => { const p = document.createElement('p'); p.textContent = para; return p; }));
+  } catch (err) {
+    const p = document.createElement('p'); p.className = 'err';
+    p.textContent = `The story couldn't be written: ${err.message} Check that the key is correct and has credit.`;
+    els.aiOut.replaceChildren(p);
+  } finally {
+    els.aiGo.disabled = false;
+  }
+});
+
+/* ---------------- dictionary ---------------- */
+
+function renderDict(q = '') {
+  q = q.trim().toLowerCase();
+  const fam = {};
+  for (const [k, v] of Object.entries(SYMBOLS)) {
+    if (k === 'dot' || k === 'figure') continue;
+    if (q && !`${v.name} ${v.el} ${v.meaning}`.toLowerCase().includes(q)) continue;
+    (fam[v.family] ||= []).push(v);
+  }
+  const groups = Object.entries(fam);
+  if (!groups.length) { els.dict.innerHTML = '<p>No symbol matches that. Try a broader word like "love" or "travel".</p>'; return; }
+  els.dict.replaceChildren(...groups.map(([f, list]) => {
+    const sec = document.createElement('section');
+    const h = document.createElement('h3'); h.textContent = f;
+    const dl = document.createElement('dl');
+    for (const v of list.sort((a, b) => a.name.localeCompare(b.name))) {
+      const div = document.createElement('div'); div.className = 'entry';
+      const dt = document.createElement('dt'); dt.textContent = v.name;
+      const el = document.createElement('span'); el.lang = 'el'; el.textContent = v.el; dt.append(el);
+      const dd = document.createElement('dd'); dd.textContent = v.meaning;
+      div.append(dt, dd); dl.append(div);
+    }
+    sec.append(h, dl);
+    return sec;
+  }));
+}
+els.dictSearch.addEventListener('input', () => renderDict(els.dictSearch.value));
+
+window.addEventListener('resize', () => draw());
+
+/* ---------------- tabs ---------------- */
+
+const TABS = ['read', 'tradition', 'symbols'];
+function showTab() {
+  const id = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'read';
+  for (const t of TABS) {
+    $(t).hidden = t !== id;
+    $(`tab-${t}`).setAttribute('aria-selected', String(t === id));
+  }
+  if (id === 'read') draw();
+}
+window.addEventListener('hashchange', () => { showTab(); window.scrollTo(0, 0); });
+showTab();
+
+// Thea Maria's photo is optional: add thea-maria.jpg next to index.html to show it.
+const portrait = $('portraitImg');
+portrait.addEventListener('error', () => { $('portrait').hidden = true; });
+if (portrait.complete && !portrait.naturalWidth) $('portrait').hidden = true;
+renderTradition();
+renderDict();
+
+</script>
+</body>
+</html>
